@@ -1,0 +1,3617 @@
+wait(1) --change to wait(6) if your pc bad
+local lib = loadstring(game:HttpGet"https://raw.githubusercontent.com/dawid-scripts/UI-Libs/main/discord%20lib.txt")()
+local win = lib:Window("IwI mod")
+local serv = win:Server("IwI mod", "https://www.roblox.com/library/7380003172/IwI")
+-- Tabs
+local welcome_tab = serv:Channel("Home")
+local maps_tab = serv:Channel("Maps")
+local sounds_tab = serv:Channel("Sounds")
+local world_tab = serv:Channel("Graphics")
+local person_tab = serv:Channel("Person")
+local cheats_tab = serv:Channel("Cheats")
+local customs_tab = serv:Channel("Customs")
+-- Locals
+local cbClient = getsenv(game.Players.LocalPlayer.PlayerGui.Client)
+local UserInputService = game:GetService("UserInputService")
+local LG = game.Lighting
+local plr  = game:GetService('Players').LocalPlayer
+local team = game:GetService("ReplicatedStorage").Events.JoinTeam
+local data = game:GetService("Workspace").Status
+-- Engines
+game.ReplicatedStorage.Viewmodels["v_USP"].HumanoidRootPart.Transparency = 1
+game.ReplicatedStorage.Viewmodels["v_Tec9"].HumanoidRootPart.Transparency = 1
+game.ReplicatedStorage.Viewmodels["v_Smoke Grenade"].HumanoidRootPart.Transparency = 1
+game.ReplicatedStorage.Viewmodels["v_Scout"].HumanoidRootPart.Transparency = 1
+game.ReplicatedStorage.Viewmodels["v_SawedOff"].HumanoidRootPart.Transparency = 1
+game.ReplicatedStorage.Viewmodels["v_SCAR-20"].HumanoidRootPart.Transparency = 1
+game.ReplicatedStorage.Viewmodels["v_Negev"].HumanoidRootPart.Transparency = 1
+game.ReplicatedStorage.Viewmodels["v_Incendiary Grenade"].HumanoidRootPart.Transparency = 1
+game.ReplicatedStorage.Viewmodels["v_Flashbang"].HumanoidRootPart.Transparency = 1
+game.ReplicatedStorage.Viewmodels["v_Decoy Grenade"].HumanoidRootPart.Transparency = 1
+game.ReplicatedStorage.Viewmodels["v_C4Halloween"].HumanoidRootPart.Transparency = 1
+
+
+
+
+
+
+
+
+
+
+
+person_tab:Seperator()
+person_tab:Seperator()
+person_tab:Seperator()
+person_tab:Seperator()
+person_tab:Seperator()
+person_tab:Seperator()
+
+person_tab:Label("                                         Soon....")
+
+person_tab:Seperator()
+person_tab:Seperator()
+person_tab:Seperator()
+person_tab:Seperator()
+person_tab:Seperator()
+person_tab:Seperator()
+
+
+welcome_tab:Label("                                        Credists")
+welcome_tab:Label("BloxFun")
+welcome_tab:Label("dawid-scripts")
+
+--=================================================================================================================================
+--   World Tab
+
+world_tab:Seperator()
+
+world_tab:Toggle("Plastic Textures", false, function(val)
+	if val == true then
+		for _, Parts in pairs(workspace:GetDescendants()) do 
+			if Parts:IsA("Part") then 
+				if not Parts:FindFirstChild("SurfaceType") then 
+					local SurfaceType = Instance.new("StringValue",Parts)
+					SurfaceType.Name = "SurfaceType"
+					SurfaceType.Value = tostring(Parts.Material) 
+				end
+				Parts.Material  = "SmoothPlastic"
+			end
+		end
+	else
+		for _, Parts in pairs(workspace:GetDescendants()) do 
+			if Parts:IsA("Part") and Parts:FindFirstChild("SurfaceType") then 
+				Parts.Material  = string.sub(Parts.SurfaceType.Value,15) 
+			end
+		end	
+	end
+end)
+
+
+
+
+
+world_tab:Seperator()
+
+
+world_tab:Label("                    Lighting Settings:")
+
+--Ambient / WorldColor
+world_tab:Colorpicker("Ambient / WorldColor)",Color3.fromRGB(90, 74, 62), function(val)
+    LG.Ambient = val
+end)
+
+--Brightness
+world_tab:Textbox("Brightness", "Type here!", true, function(val)
+	LG.Brightness = val;
+end)
+
+--ClockTime
+world_tab:Textbox("Clock Time", "Sleepy Sleepy", true, function(val)
+	LG.ClockTime = val;
+end)
+
+--ColorShift_Bottom
+world_tab:Colorpicker("ColorShift_Bottom",Color3.fromRGB(0, 0, 0), function(val)
+    LG.ColorShift_Bottom = val
+end)
+
+--ColorShift_Top
+world_tab:Colorpicker("ColorShift_Top",Color3.fromRGB(0, 0, 0), function(val)
+    LG.ColorShift_Top = val
+end)
+
+--FogColor
+world_tab:Colorpicker("FogColor",Color3.fromRGB(191, 191, 191), function(val)
+    LG.FogColor = val
+end)
+
+--FogEnd
+world_tab:Textbox("Fog End", "Number", true, function(val)
+	LG.FogEnd = val;
+end)
+
+--FogStart
+world_tab:Textbox("Fog Start", "Number", true, function(val)
+	LG.FogStart = val;
+end)
+
+--GeographicLatitude
+world_tab:Textbox("GeographicLatitude", "Number", true, function(val)
+	LG.GeographicLatitude = val;
+end)
+
+--Global Shadows
+world_tab:Toggle("Global Shadows", false, function(val)
+    if val == true then
+		LG.GlobalShadows = true
+	else
+		LG.GlobalShadows = false
+	end
+end)
+
+--Outdoor Ambient
+world_tab:Colorpicker("Outdoor Ambient",Color3.fromRGB(165, 156, 140), function(val)
+    LG.OutdoorAmbient = val
+end)
+
+--TimeOfDay
+world_tab:Textbox("Time of Day", "Change Time", true, function(val)
+	LG.TimeOfDay = val;
+end)
+
+world_tab:Seperator()
+
+-- Effects Configuration Text
+world_tab:Label("                    Effects Configuration:")
+
+
+--  Color Correction Effect
+world_tab:Toggle("Color Correction Effect", false, function(val)
+	if val == true then
+		local BFCCE = Instance.new("ColorCorrectionEffect", LG)
+		BFCCE.Name = "BF_CCE"
+		LG.BF_CCE.Saturation = 0
+		LG.BF_CCE.Brightness = 0
+		LG.BF_CCE.Contrast = 0
+		LG.BF_CCE.TintColor = 255, 255, 255
+	else
+		LG.BF_CCE:Destroy()
+	end
+end)
+
+--Saturation (Color Correction)
+world_tab:Textbox("Saturation", "(Color Correction)", true, function(val)
+	LG.BF_CCE.Saturation = val;
+end)
+
+--Brightness (Color Correction)
+world_tab:Textbox("Brightness", "(Color Correction)", true, function(val)
+	LG.BF_CCE.Brightness = val;
+end)
+
+--Contrast (Color Correction)
+world_tab:Textbox("Contrast","(Color Correction)", true, function(val)
+	LG.BF_CCE.Contrast = val;
+end)
+
+--Tint Color (Color Correction)
+world_tab:Colorpicker("Tint Color", Color3.fromRGB(255,255,255), function(val)
+    LG.BF_CCE.TintColor = val
+end)
+
+--  SunRays Effect
+world_tab:Toggle("SunRays Effect", false, function(val)
+	if val == true then
+		local BFSR = Instance.new("SunRaysEffect", LG)
+		BFSR.Name = "BF_SR"
+		LG.BF_SR.Intensity = 0
+		LG.BF_SR.Spread = 0
+	else
+		LG.BF_SR:Destroy()
+	end
+end)
+
+--Intensity (SunRays)
+world_tab:Textbox("Intensity", "(SunRays)", true, function(val)
+	LG.BF_SR.Intensity = val;
+end)
+
+--Spread (SunRays)
+world_tab:Textbox("Spread", "(SunRays)", true, function(val)
+	LG.BF_SR.Spread = val;
+end)
+
+--  Bloom Effect
+world_tab:Toggle("Bloom Effect", false, function(val)
+	if val == true then
+		local BFBE = Instance.new("BloomEffect", LG)
+		BFBE.Name = "BF_BE"
+		LG.BF_BE.Intensity = 0
+		LG.BF_BE.Size = 0
+		LG.BF_BE.Threshold = 0
+	else
+		LG.BF_BE:Destroy()
+	end
+end)
+
+--Intensity (Bloom)
+world_tab:Textbox("Intensity", "(Bloom)", true, function(val)
+	LG.BF_BE.Intensity = val;
+end)
+
+--Size (Bloom)
+world_tab:Textbox("Size", "(Bloom)", true, function(val)
+	LG.BF_BE.Size = val;
+end)
+
+--Threshold (Bloom)
+world_tab:Textbox("Threshold", "(Bloom)", true, function(val)
+	LG.BF_BE.Threshold = val;
+end)
+world_tab:Seperator()
+
+--  Blur Effect
+world_tab:Toggle("Blur Effect", false, function(val)
+	if val == true then
+		local BFBLE = Instance.new("BlurEffect", LG)
+		BFBLE.Name = "BF_BLE"
+		LG.BF_BLE.Size = 0
+	else
+		LG.BF_BLE:Destroy()
+	end
+end)
+
+--Size (Blur)
+world_tab:Textbox("Size", "(Blur)", true, function(val)
+	LG.BF_BLE.Size = val;
+end)
+
+--  DepthOfField Effect
+world_tab:Toggle("Depth Of Field Effect", false, function(val)
+	if val == true then
+		local BFDOF = Instance.new("DepthOfFieldEffect", LG)
+		BFDOF.Name = "BF_DOF"
+		LG.BF_DOF.FarIntensity = 0
+		LG.BF_DOF.FocusDistance = 0
+		LG.BF_DOF.InFocusRadius = 0
+		LG.BF_DOF.NearIntensity = 0
+	else
+		LG.BF_DOF:Destroy()
+	end
+end)
+
+--FarIntensity (DepthOfField)
+world_tab:Textbox("FarIntensity", "(DepthOfField)", true, function(val)
+	LG.BF_DOF.FarIntensity = val;
+end)
+
+--FocusDistance (DepthOfField)
+world_tab:Textbox("FocusDistance", "(DepthOfField)", true, function(val)
+	LG.BF_DOF.FocusDistance = val;
+end)
+
+--InFocusRadius (DepthOfField)
+world_tab:Textbox("InFocusRadius", "(DepthOfField)", true, function(val)
+	LG.BF_DOF.InFocusRadius = val;
+end)
+
+--NearIntensity (DepthOfField)
+world_tab:Textbox("NearIntensity", "(DepthOfField)", true, function(val)
+	LG.BF_DOF.NearIntensity = val;
+end)
+
+world_tab:Seperator()
+
+--Another World Features Text
+world_tab:Label("                    Another World Settings:")
+
+--NightMode
+world_tab:Toggle("NightMode", false, function(val)
+    if val == true then
+		LG.TimeOfDay = 20
+	else
+		LG.TimeOfDay = 13
+	end
+end)
+
+--Remove Rain on Aztec map
+world_tab:Button("Remove Rain on Aztec map", function()
+	game.Workspace.Map.Geometry.RainParts:Destroy()
+end)
+
+world_tab:Seperator()
+
+world_tab:Label("                    Skies:")
+
+world_tab:Toggle("Skybox Changer", false, function(val)
+	if val == true then
+		local boxsky = Instance.new("Sky", LG)
+		wait(1)
+		boxsky.Name = "BFSky"
+		wait(1)
+		print("Skyboxes Turned On")
+	else
+		print("Skyboxes Turned Off")
+		wait(1)
+		LG.BFSky:Destroy()
+	end
+lib:Notification("ReadMe!", "Wait a few seconds to Skybox load when you change it.", "[OKAY]")
+end)
+
+world_tab:Dropdown("Pick Skybox",{"Chromakey","Mountains","Anime Sky","Beautiful","Blue","Chill Gray","Chill Pink","Cloudy Sky","Grey-Cyan Planet","Light Blue","Light Pink","Neon Sky","Neon Sky2","Night","Orange","RemRam","Red"}, function(sky)
+if sky == "Chromakey" then
+    LG.BFSky.SkyboxBk = "http://www.roblox.com/asset/?id=6406360107"
+    LG.BFSky.SkyboxDn = "http://www.roblox.com/asset/?id=6406360402"
+    LG.BFSky.SkyboxFt = "http://www.roblox.com/asset/?id=6406360607"
+    LG.BFSky.SkyboxLf = "http://www.roblox.com/asset/?id=6406361441"
+    LG.BFSky.SkyboxRt = "http://www.roblox.com/asset/?id=6406361669"
+    LG.BFSky.SkyboxUp = "http://www.roblox.com/asset/?id=6406361943"
+    LG.BFSky.StarCount = 3000
+    LG.BFSky.SunAngularSize = 21
+elseif sky == "Mountains" then
+    LG.BFSky.SkyboxBk = "http://www.roblox.com/asset/?id=368385273"
+    LG.BFSky.SkyboxDn = "http://www.roblox.com/asset/?id=48015300"
+    LG.BFSky.SkyboxFt = "http://www.roblox.com/asset/?id=368388290"
+    LG.BFSky.SkyboxLf = "http://www.roblox.com/asset/?id=368390615"
+    LG.BFSky.SkyboxRt = "http://www.roblox.com/asset/?id=368385190"
+    LG.BFSky.SkyboxUp = "http://www.roblox.com/asset/?id=48015387"
+    LG.BFSky.StarCount = 3000
+    LG.BFSky.SunAngularSize = 21
+elseif sky == "Anime Sky" then
+    LG.BFSky.SkyboxBk = "http://www.roblox.com/asset/?id=2800905936"
+    LG.BFSky.SkyboxDn = "http://www.roblox.com/asset/?id=2800905936"
+    LG.BFSky.SkyboxFt = "http://www.roblox.com/asset/?id=2800905116"
+    LG.BFSky.SkyboxLf = "http://www.roblox.com/asset/?id=2800902328"
+    LG.BFSky.SkyboxRt = "http://www.roblox.com/asset/?id=2800903916"
+    LG.BFSky.SkyboxUp = "http://www.roblox.com/asset/?id=2800906739"
+    LG.BFSky.StarCount = 3000
+    LG.BFSky.SunAngularSize = 21
+elseif sky == "Beautiful" then
+    LG.BFSky.SkyboxBk = "http://www.roblox.com/asset/?id=6406316753"
+    LG.BFSky.SkyboxDn = "http://www.roblox.com/asset/?id=6406316964"
+    LG.BFSky.SkyboxFt = "http://www.roblox.com/asset/?id=6406319007"
+    LG.BFSky.SkyboxLf = "http://www.roblox.com/asset/?id=6406320388"
+    LG.BFSky.SkyboxRt = "http://www.roblox.com/asset/?id=6406325440"
+    LG.BFSky.SkyboxUp = "http://www.roblox.com/asset/?id=6406326261"
+    LG.BFSky.StarCount = 3000
+    LG.BFSky.SunAngularSize = 21
+elseif sky == "Blue" then
+    LG.BFSky.SkyboxBk = "http://www.roblox.com/asset/?id=6406338031"
+    LG.BFSky.SkyboxDn = "http://www.roblox.com/asset/?id=6406338611"
+    LG.BFSky.SkyboxFt = "http://www.roblox.com/asset/?id=6406339260"
+    LG.BFSky.SkyboxLf = "http://www.roblox.com/asset/?id=6406340054"
+    LG.BFSky.SkyboxRt = "http://www.roblox.com/asset/?id=6406340677"
+    LG.BFSky.SkyboxUp = "http://www.roblox.com/asset/?id=6406341784"
+    LG.BFSky.StarCount = 3000
+    LG.BFSky.SunAngularSize = 21
+elseif sky == "Chill Gray" then
+    LG.BFSky.SkyboxBk = "http://www.roblox.com/asset/?id=6406347213"
+    LG.BFSky.SkyboxDn = "http://www.roblox.com/asset/?id=6406347637"
+    LG.BFSky.SkyboxFt = "http://www.roblox.com/asset/?id=6406347987"
+    LG.BFSky.SkyboxLf = "http://www.roblox.com/asset/?id=6406348363"
+    LG.BFSky.SkyboxRt = "http://www.roblox.com/asset/?id=6406348889"
+    LG.BFSky.SkyboxUp = "http://www.roblox.com/asset/?id=6406349549"
+    LG.BFSky.StarCount = 3000
+    LG.BFSky.SunAngularSize = 21
+elseif sky == "Chill Pink" then
+    LG.BFSky.SkyboxBk = "http://www.roblox.com/asset/?id=6406353596"
+    LG.BFSky.SkyboxDn = "http://www.roblox.com/asset/?id=6406354052"
+    LG.BFSky.SkyboxFt = "http://www.roblox.com/asset/?id=6406354505"
+    LG.BFSky.SkyboxLf = "http://www.roblox.com/asset/?id=6406355369"
+    LG.BFSky.SkyboxRt = "http://www.roblox.com/asset/?id=6406356166"
+    LG.BFSky.SkyboxUp = "http://www.roblox.com/asset/?id=6406356691"
+    LG.BFSky.StarCount = 3000
+    LG.BFSky.SunAngularSize = 21
+elseif sky == "Cloudy Sky" then
+	LG.BFSky.SkyboxBk = "http://www.roblox.com/asset/?id=252760981"
+    LG.BFSky.SkyboxDn = "http://www.roblox.com/asset/?id=252763035"
+    LG.BFSky.SkyboxFt = "http://www.roblox.com/asset/?id=252761439"
+    LG.BFSky.SkyboxLf = "http://www.roblox.com/asset/?id=252760980"
+    LG.BFSky.SkyboxRt = "http://www.roblox.com/asset/?id=252760986"
+    LG.BFSky.SkyboxUp = "http://www.roblox.com/asset/?id=252762652"
+    LG.BFSky.StarCount = 3000
+    LG.BFSky.SunAngularSize = 21
+elseif sky == "Grey-Cyan Planet" then
+    LG.BFSky.SkyboxBk = "http://www.roblox.com/asset/?id=6406368687"
+    LG.BFSky.SkyboxDn = "http://www.roblox.com/asset/?id=6406369310"
+    LG.BFSky.SkyboxFt = "http://www.roblox.com/asset/?id=6406369919"
+    LG.BFSky.SkyboxLf = "http://www.roblox.com/asset/?id=6406370509"
+    LG.BFSky.SkyboxRt = "http://www.roblox.com/asset/?id=6406371054"
+    LG.BFSky.SkyboxUp = "http://www.roblox.com/asset/?id=6406371651"
+    LG.BFSky.StarCount = 3000
+    LG.BFSky.SunAngularSize = 21
+elseif sky == "Light Blue" then
+    LG.BFSky.SkyboxBk = "http://www.roblox.com/asset/?id=6406376173"
+    LG.BFSky.SkyboxDn = "http://www.roblox.com/asset/?id=6406376633"
+    LG.BFSky.SkyboxFt = "http://www.roblox.com/asset/?id=6406377172"
+    LG.BFSky.SkyboxLf = "http://www.roblox.com/asset/?id=6406377853"
+    LG.BFSky.SkyboxRt = "http://www.roblox.com/asset/?id=6406378666"
+    LG.BFSky.SkyboxUp = "http://www.roblox.com/asset/?id=6406379188"
+    LG.BFSky.StarCount = 3000
+    LG.BFSky.SunAngularSize = 21
+elseif sky == "Light Pink" then
+    LG.BFSky.SkyboxBk = "http://www.roblox.com/asset/?id=6406440634"
+    LG.BFSky.SkyboxDn = "http://www.roblox.com/asset/?id=6406441048"
+    LG.BFSky.SkyboxFt = "http://www.roblox.com/asset/?id=6406441427"
+    LG.BFSky.SkyboxLf = "http://www.roblox.com/asset/?id=6406442010"
+    LG.BFSky.SkyboxRt = "http://www.roblox.com/asset/?id=6406442345"
+    LG.BFSky.SkyboxUp = "http://www.roblox.com/asset/?id=6406442723"
+    LG.BFSky.StarCount = 3000
+    LG.BFSky.SunAngularSize = 21
+elseif sky == "Neon Sky" then
+    LG.BFSky.SkyboxBk = "http://www.roblox.com/asset/?id=6406444292"
+    LG.BFSky.SkyboxDn = "http://www.roblox.com/asset/?id=6406446186"
+    LG.BFSky.SkyboxFt = "http://www.roblox.com/asset/?id=6406447006"
+    LG.BFSky.SkyboxLf = "http://www.roblox.com/asset/?id=6406448769"
+    LG.BFSky.SkyboxRt = "http://www.roblox.com/asset/?id=6406449437"
+    LG.BFSky.SkyboxUp = "http://www.roblox.com/asset/?id=6406450124"
+    LG.BFSky.StarCount = 3000
+    LG.BFSky.SunAngularSize = 21
+elseif sky == "Neon Sky2" then
+    LG.BFSky.SkyboxBk = "http://www.roblox.com/asset/?id=6406453632"
+    LG.BFSky.SkyboxDn = "http://www.roblox.com/asset/?id=6406454428"
+    LG.BFSky.SkyboxFt = "http://www.roblox.com/asset/?id=6406455145"
+    LG.BFSky.SkyboxLf = "http://www.roblox.com/asset/?id=6406455969"
+    LG.BFSky.SkyboxRt = "http://www.roblox.com/asset/?id=6406457755"
+    LG.BFSky.SkyboxUp = "http://www.roblox.com/asset/?id=6406458471"
+    LG.BFSky.StarCount = 3000
+    LG.BFSky.SunAngularSize = 21
+elseif sky == "Night" then
+    LG.BFSky.SkyboxBk = "http://www.roblox.com/asset/?id=6406488746"
+    LG.BFSky.SkyboxDn = "http://www.roblox.com/asset/?id=6406489119"
+    LG.BFSky.SkyboxFt = "http://www.roblox.com/asset/?id=6406489611"
+    LG.BFSky.SkyboxLf = "http://www.roblox.com/asset/?id=6406489943"
+    LG.BFSky.SkyboxRt = "http://www.roblox.com/asset/?id=6406490257"
+    LG.BFSky.SkyboxUp = "http://www.roblox.com/asset/?id=6406490632"
+    LG.BFSky.StarCount = 3000
+    LG.BFSky.SunAngularSize = 21
+elseif sky == "Orange" then
+    LG.BFSky.SkyboxBk = "http://www.roblox.com/asset/?id=6406492024"
+    LG.BFSky.SkyboxDn = "http://www.roblox.com/asset/?id=6406492367"
+    LG.BFSky.SkyboxFt = "http://www.roblox.com/asset/?id=6406492969"
+    LG.BFSky.SkyboxLf = "http://www.roblox.com/asset/?id=6406493654"
+    LG.BFSky.SkyboxRt = "http://www.roblox.com/asset/?id=6406494275"
+    LG.BFSky.SkyboxUp = "http://www.roblox.com/asset/?id=6406494867"
+    LG.BFSky.StarCount = 3000
+    LG.BFSky.SunAngularSize = 21
+elseif sky == "RemRam" then
+    LG.BFSky.SkyboxBk = "http://www.roblox.com/asset/?id=6406543317"
+    LG.BFSky.SkyboxDn = "http://www.roblox.com/asset/?id=6406543853"
+    LG.BFSky.SkyboxFt = "http://www.roblox.com/asset/?id=6406544380"
+    LG.BFSky.SkyboxLf = "http://www.roblox.com/asset/?id=6406544829"
+    LG.BFSky.SkyboxRt = "http://www.roblox.com/asset/?id=6406545401"
+    LG.BFSky.SkyboxUp = "http://www.roblox.com/asset/?id=6406545914"
+    LG.BFSky.StarCount = 3000
+    LG.BFSky.SunAngularSize = 21
+elseif sky == "Red" then
+    LG.BFSky.SkyboxBk = "http://www.roblox.com/asset/?id=6406509789"
+    LG.BFSky.SkyboxDn = "http://www.roblox.com/asset/?id=6406510200"
+    LG.BFSky.SkyboxFt = "http://www.roblox.com/asset/?id=6406510683"
+    LG.BFSky.SkyboxLf = "http://www.roblox.com/asset/?id=6406511182"
+    LG.BFSky.SkyboxRt = "http://www.roblox.com/asset/?id=6406511634"
+    LG.BFSky.SkyboxUp = "http://www.roblox.com/asset/?id=6406512063"
+    LG.BFSky.StarCount = 3000
+    LG.BFSky.SunAngularSize = 21
+end
+end)
+
+
+
+
+
+
+
+
+
+
+
+
+cheats_tab:Toggle("Third Person", false, function(val)
+	if val == true then
+	while val == true do 
+	wait(0.1)
+	game.Players.LocalPlayer.CameraMode = "Classic"
+	game.Players.LocalPlayer.CameraMaxZoomDistance = 10
+	game.Players.LocalPlayer.CameraMinZoomDistance = 10
+	end
+	else
+	while val == false do 
+	game.Players.LocalPlayer.CameraMode = "LockFirstPerson"
+	game.Players.LocalPlayer.CameraMaxZoomDistance = 0
+	game.Players.LocalPlayer.CameraMinZoomDistance = 0
+	end
+	end
+end)
+
+
+
+
+
+cheats_tab:Seperator()
+
+cheats_tab:Button("Dancing", function()
+for i,v in next, game.CoreGui:GetChildren() do if v.Name == "Taunts" then v:Destroy() end end  local Players = game:GetService("Players") local UserInputService = game:GetService("UserInputService") local LocalPlayer = Players.LocalPlayer local Mouse = LocalPlayer:GetMouse() local dancing = false  local TauntUI = game:GetObjects("rbxassetid://5478726847")[1] TauntUI.Parent = game.CoreGui TauntUI.Main.EmotesWheel.Visible = false  local cursor = Instance.new("ImageLabel") cursor.Name = "cursor" cursor.Parent = TauntUI cursor.BackgroundTransparency = 1 cursor.Size = UDim2.new(0,15,0,15) cursor.Image = "rbxassetid://518398610" cursor.ZIndex = 100  UserInputService.InputBegan:connect(function(key) if key.KeyCode == Enum.KeyCode.Comma then TauntUI.Main.EmotesWheel.Visible = not TauntUI.Main.EmotesWheel.Visible end end)  for i,v in next, TauntUI.Main.EmotesWheel.Front.EmotesButtons:GetChildren() do v.MouseButton1Click:connect(function()        if LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("Humanoid") and not dancing then            TauntUI.Main.EmotesWheel.Visible = false            dancing = true            local anim = Instance.new("Animation")            anim.AnimationId = "rbxassetid://"..v.anim.Value            local loadedanim = LocalPlayer.Character.Humanoid:LoadAnimation(anim)            loadedanim:Play()            spawn(function()                while dancing do wait()                    LocalPlayer.CameraMaxZoomDistance = 10                    LocalPlayer.CameraMinZoomDistance = 10                end            end)            spawn(function() wait(loadedanim.Length) dancing = false                pcall(function()                    loadedanim:Stop()                end) wait(0.5) dancing = true for i=1,10 do wait() LocalPlayer.CameraMode = "Classic" LocalPlayer.CameraMaxZoomDistance = 0 LocalPlayer.CameraMinZoomDistance = 0 end dancing = false            end)        end    end) end  game:GetService("RunService").RenderStepped:connect(function() cursor.Visible = TauntUI.Main.EmotesWheel.Visible cursor.Position = UDim2.new(0,Mouse.X,0,Mouse.Y) end)
+
+
+lib:Notification("ReadMe!", "Press P to dancing'.", "[OKAY]")
+end)
+
+
+welcome_tab:Seperator()
+
+welcome_tab:Button("Discord BloxFun Invite", function()
+	setclipboard("https://discord.gg/EjxDawbZKu")
+end)
+welcome_tab:Button("Rejoin Server", function()
+	game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, game.JobId)
+end)
+welcome_tab:Button("Destroy GUI", function()
+    game.CoreGui.Discord:Destroy()
+end)
+welcome_tab:Seperator()
+--Close Bind
+welcome_tab:Bind("Close Bind",Enum.KeyCode.LeftAlt, function()
+	game.CoreGui.Discord.Enabled = false
+end)
+
+--Open Bind
+welcome_tab:Bind("Open Bind",Enum.KeyCode.RightAlt, function()
+	game.CoreGui.Discord.Enabled = true
+end)
+--=================================================================================================================================
+--   Maps Tab
+maps_tab:Seperator()
+
+maps_tab:Toggle("hw_mirage (not working)", false, function(val)
+	if val == true then
+		game.Workspace.Map:Destroy()
+		wait(1)
+		local Model9159 = Instance.new("Model", game.Workspace)
+		game:GetObjects('rbxassetid://6411595443')[1].Parent = Model9159
+		wait(1)
+		Model = workspace.Model
+		for _, Child in pairs(Model:GetChildren()) do
+			Child.Parent = Model.Parent
+		end
+		Model:Destroy()
+	else
+		game.Workspace.Map:Destroy()
+	end
+end)
+
+maps_tab:Seperator()
+
+
+
+maps_tab:Toggle("bhop map", false, function(val)
+	if val == true then
+	game.Workspace.Map["AllSpawns"]:Destroy()
+	game.Workspace.Map["CTSpawns"]:Destroy()
+	game.Workspace.Map["Clips"]:Destroy()
+	game.Workspace.Map["Geometry"]:Destroy()
+	game.Workspace.Map["Ignore"]:Destroy()
+	game.Workspace.Map["Killers"]:Destroy()
+	game.Workspace.Map["Regen"]:Destroy()
+	game.Workspace.Map["SpawnPoints"]:Destroy()
+	game.Workspace.Map["TSpawns"]:Destroy()
+	game.Workspace.Map["CeeT"]:Destroy()
+	game.Workspace.Map["Gamemode"]:Destroy()
+	game.Workspace.Map["Origin"]:Destroy()
+	game.Workspace.Map["Tee"]:Destroy()
+	game.Workspace.Map["Radar"]:Destroy()
+	wait()
+	local Model1 = Instance.new("Model", game.Workspace.Map)
+	game:GetObjects('rbxassetid://7413909282')[1].Parent = Model1
+	Model1 = game.Workspace.Map.Model
+	for _, Child in pairs(Model1:GetChildren()) do
+		Child.Parent = Model1.Parent
+	end
+	Model1:Destroy()
+	wait()
+	Model2 = game.Workspace.Map["unpack_bhop_easyv2"]
+	for _, Child in pairs(Model2:GetChildren()) do
+		Child.Parent = Model2.Parent
+	end
+	Model2:Destroy()
+	else
+
+	end
+end)
+
+maps_tab:Seperator()
+
+
+
+
+
+
+--=================================================================================================================================
+--   Customs Tab
+
+--bayonet mesh changer here
+
+customs_tab:Seperator()
+customs_tab:Label("                    Models & Skins")
+
+
+customs_tab:Dropdown("Arsenal Viewmodels",{"Gaster Blaster","Scythe","Ban Hammer","Mop","Crucible","Frog","Swordfish","Icicle","Balloon Sword"}, function(model)
+if model == "Gaster Blaster" then
+
+
+
+
+
+game.ReplicatedStorage.Viewmodels["v_CT Knife"]:Destroy()
+game.ReplicatedStorage.Viewmodels["v_T Knife"]:Destroy()
+wait()
+local Model59548 = Instance.new("Model", game.ReplicatedStorage.Viewmodels)
+game:GetObjects('rbxassetid://6557084140')[1].Parent = Model59548
+Model = game.ReplicatedStorage.Viewmodels.Model
+for _, Child in pairs(Model:GetChildren()) do
+    Child.Parent = Model.Parent
+end
+Model:Destroy()
+wait()
+local Model55609 = Instance.new("Model", game.ReplicatedStorage.Viewmodels)
+game:GetObjects('rbxassetid://6557084140')[1].Parent = Model55609
+Model = game.ReplicatedStorage.Viewmodels.Model
+for _, Child in pairs(Model:GetChildren()) do
+    Child.Parent = Model.Parent
+end
+Model:Destroy()
+wait()
+game.ReplicatedStorage.Viewmodels["v_Gaster Blaster"].Name = "v_CT Knife"
+game.ReplicatedStorage.Viewmodels["v_Gaster Blaster"].Name = "v_T Knife"
+lib:Notification("ReadMe!", "Please, equip starter knife'.", "[OKAY]")
+
+
+
+
+
+
+elseif model == "Balloon Sword" then
+game.ReplicatedStorage.Viewmodels["v_CT Knife"]:Destroy()
+game.ReplicatedStorage.Viewmodels["v_T Knife"]:Destroy()
+wait()
+local Model895454 = Instance.new("Model", game.ReplicatedStorage.Viewmodels)
+game:GetObjects('rbxassetid://6557145139')[1].Parent = Model895454
+Model = game.ReplicatedStorage.Viewmodels.Model
+for _, Child in pairs(Model:GetChildren()) do
+    Child.Parent = Model.Parent
+end
+Model:Destroy()
+wait()
+local Model59534 = Instance.new("Model", game.ReplicatedStorage.Viewmodels)
+game:GetObjects('rbxassetid://6557145139')[1].Parent = Model59534
+Model = game.ReplicatedStorage.Viewmodels.Model
+for _, Child in pairs(Model:GetChildren()) do
+    Child.Parent = Model.Parent
+end
+Model:Destroy()
+wait()
+game.ReplicatedStorage.Viewmodels["v_Balloon Sword"].Name = "v_CT Knife"
+game.ReplicatedStorage.Viewmodels["v_Balloon Sword"].Name = "v_T Knife"
+lib:Notification("ReadMe!", "Please, equip starter knife'.", "[OKAY]")
+
+elseif model == "Icicle" then
+game.ReplicatedStorage.Viewmodels["v_CT Knife"]:Destroy()
+game.ReplicatedStorage.Viewmodels["v_T Knife"]:Destroy()
+wait()
+local Model4848490 = Instance.new("Model", game.ReplicatedStorage.Viewmodels)
+game:GetObjects('rbxassetid://6557216520')[1].Parent = Model4848490
+Model = game.ReplicatedStorage.Viewmodels.Model
+for _, Child in pairs(Model:GetChildren()) do
+    Child.Parent = Model.Parent
+end
+Model:Destroy()
+wait()
+local Model48933489 = Instance.new("Model", game.ReplicatedStorage.Viewmodels)
+game:GetObjects('rbxassetid://6557216520')[1].Parent = Model48933489
+Model = game.ReplicatedStorage.Viewmodels.Model
+for _, Child in pairs(Model:GetChildren()) do
+    Child.Parent = Model.Parent
+end
+Model:Destroy()
+wait()
+game.ReplicatedStorage.Viewmodels["v_Icicle"].Name = "v_CT Knife"
+game.ReplicatedStorage.Viewmodels["v_Icicle"].Name = "v_T Knife"
+lib:Notification("ReadMe!", "Please, equip starter knife'.", "[OKAY]")
+
+
+
+
+
+
+
+
+
+
+elseif model == "Swordfish" then
+game.ReplicatedStorage.Viewmodels["v_CT Knife"]:Destroy()
+game.ReplicatedStorage.Viewmodels["v_T Knife"]:Destroy()
+wait()
+local Model32854290 = Instance.new("Model", game.ReplicatedStorage.Viewmodels)
+game:GetObjects('rbxassetid://6557349479')[1].Parent = Model32854290
+Model = game.ReplicatedStorage.Viewmodels.Model
+for _, Child in pairs(Model:GetChildren()) do
+    Child.Parent = Model.Parent
+end
+Model:Destroy()
+wait()
+local Model3489894378 = Instance.new("Model", game.ReplicatedStorage.Viewmodels)
+game:GetObjects('rbxassetid://6557349479')[1].Parent = Model3489894378
+Model = game.ReplicatedStorage.Viewmodels.Model
+for _, Child in pairs(Model:GetChildren()) do
+    Child.Parent = Model.Parent
+end
+Model:Destroy()
+wait()
+game.ReplicatedStorage.Viewmodels["v_Swordfish"].Name = "v_CT Knife"
+game.ReplicatedStorage.Viewmodels["v_Swordfish"].Name = "v_T Knife"
+lib:Notification("ReadMe!", "Please, equip starter knife'.", "[OKAY]")
+
+
+
+
+
+elseif model == "Frog" then
+game.ReplicatedStorage.Viewmodels["v_CT Knife"]:Destroy()
+game.ReplicatedStorage.Viewmodels["v_T Knife"]:Destroy()
+wait()
+local Model03943934 = Instance.new("Model", game.ReplicatedStorage.Viewmodels)
+game:GetObjects('rbxassetid://6557355806')[1].Parent = Model03943934
+Model = game.ReplicatedStorage.Viewmodels.Model
+for _, Child in pairs(Model:GetChildren()) do
+    Child.Parent = Model.Parent
+end
+Model:Destroy()
+wait()
+local Model12895894 = Instance.new("Model", game.ReplicatedStorage.Viewmodels)
+game:GetObjects('rbxassetid://6557355806')[1].Parent = Model12895894
+Model = game.ReplicatedStorage.Viewmodels.Model
+for _, Child in pairs(Model:GetChildren()) do
+    Child.Parent = Model.Parent
+end
+Model:Destroy()
+wait()
+game.ReplicatedStorage.Viewmodels["v_Frog"].Name = "v_CT Knife"
+game.ReplicatedStorage.Viewmodels["v_Frog"].Name = "v_T Knife"
+lib:Notification("ReadMe!", "Please, equip starter knife'.", "[OKAY]")
+
+
+elseif model == "Crucible" then
+game.ReplicatedStorage.Viewmodels["v_CT Knife"]:Destroy()
+game.ReplicatedStorage.Viewmodels["v_T Knife"]:Destroy()
+wait()
+local Model54899853 = Instance.new("Model", game.ReplicatedStorage.Viewmodels)
+game:GetObjects('rbxassetid://6557441076')[1].Parent = Model54899853
+Model = game.ReplicatedStorage.Viewmodels.Model
+for _, Child in pairs(Model:GetChildren()) do
+    Child.Parent = Model.Parent
+end
+Model:Destroy()
+wait()
+local Model89384935 = Instance.new("Model", game.ReplicatedStorage.Viewmodels)
+game:GetObjects('rbxassetid://6557441076')[1].Parent = Model89384935
+Model = game.ReplicatedStorage.Viewmodels.Model
+for _, Child in pairs(Model:GetChildren()) do
+    Child.Parent = Model.Parent
+end
+Model:Destroy()
+wait()
+game.ReplicatedStorage.Viewmodels["v_Crucible"].Name = "v_CT Knife"
+game.ReplicatedStorage.Viewmodels["v_Crucible"].Name = "v_T Knife"
+lib:Notification("ReadMe!", "Please, equip starter knife'.", "[OKAY]")
+
+
+elseif model == "Mop" then
+game.ReplicatedStorage.Viewmodels["v_CT Knife"]:Destroy()
+game.ReplicatedStorage.Viewmodels["v_T Knife"]:Destroy()
+wait()
+local Model54782309 = Instance.new("Model", game.ReplicatedStorage.Viewmodels)
+game:GetObjects('rbxassetid://6557449737')[1].Parent = Model54782309
+Model = game.ReplicatedStorage.Viewmodels.Model
+for _, Child in pairs(Model:GetChildren()) do
+    Child.Parent = Model.Parent
+end
+Model:Destroy()
+wait()
+local Model382389543 = Instance.new("Model", game.ReplicatedStorage.Viewmodels)
+game:GetObjects('rbxassetid://6557449737')[1].Parent = Model382389543
+Model = game.ReplicatedStorage.Viewmodels.Model
+for _, Child in pairs(Model:GetChildren()) do
+    Child.Parent = Model.Parent
+end
+Model:Destroy()
+wait()
+game.ReplicatedStorage.Viewmodels["v_Mop"].Name = "v_CT Knife"
+game.ReplicatedStorage.Viewmodels["v_Mop"].Name = "v_T Knife"
+lib:Notification("ReadMe!", "Please, equip starter knife'.", "[OKAY]")
+
+
+elseif model == "Ban Hammer" then
+game.ReplicatedStorage.Viewmodels["v_CT Knife"]:Destroy()
+game.ReplicatedStorage.Viewmodels["v_T Knife"]:Destroy()
+wait()
+local Model3478340923 = Instance.new("Model", game.ReplicatedStorage.Viewmodels)
+game:GetObjects('rbxassetid://6568012278')[1].Parent = Model3478340923
+Model = game.ReplicatedStorage.Viewmodels.Model
+for _, Child in pairs(Model:GetChildren()) do
+    Child.Parent = Model.Parent
+end
+Model:Destroy()
+wait()
+local Model38948923436 = Instance.new("Model", game.ReplicatedStorage.Viewmodels)
+game:GetObjects('rbxassetid://6568012278')[1].Parent = Model38948923436
+Model = game.ReplicatedStorage.Viewmodels.Model
+for _, Child in pairs(Model:GetChildren()) do
+    Child.Parent = Model.Parent
+end
+Model:Destroy()
+wait()
+game.ReplicatedStorage.Viewmodels["v_Ban Hammer"].Name = "v_CT Knife"
+game.ReplicatedStorage.Viewmodels["v_Ban Hammer"].Name = "v_T Knife"
+lib:Notification("ReadMe!", "Please, equip starter knife'.", "[OKAY]")
+
+
+elseif model == "Scythe" then
+game.ReplicatedStorage.Viewmodels["v_CT Knife"]:Destroy()
+game.ReplicatedStorage.Viewmodels["v_T Knife"]:Destroy()
+wait()
+local Model4949383455 = Instance.new("Model", game.ReplicatedStorage.Viewmodels)
+game:GetObjects('rbxassetid://6567489211')[1].Parent = Model4949383455
+Model = game.ReplicatedStorage.Viewmodels.Model
+for _, Child in pairs(Model:GetChildren()) do
+    Child.Parent = Model.Parent
+end
+Model:Destroy()
+wait()
+local Model3057239353 = Instance.new("Model", game.ReplicatedStorage.Viewmodels)
+game:GetObjects('rbxassetid://6567489211')[1].Parent = Model3057239353
+Model = game.ReplicatedStorage.Viewmodels.Model
+for _, Child in pairs(Model:GetChildren()) do
+    Child.Parent = Model.Parent
+end
+Model:Destroy()
+wait()
+game.ReplicatedStorage.Viewmodels["v_Scythe"].Name = "v_CT Knife"
+game.ReplicatedStorage.Viewmodels["v_Scythe"].Name = "v_T Knife"
+lib:Notification("ReadMe!", "Please, equip starter knife'.", "[OKAY]")
+
+
+
+
+
+
+end
+end)
+
+
+
+customs_tab:Dropdown("Arms",{"Minecraft Steve","Snake","Anarchia","Icy"}, function(model)
+if model == "Minecraft Steve" then
+	game.ReplicatedStorage.Viewmodels["GIGNArms"]:Destroy()
+	game.ReplicatedStorage.Viewmodels["ECArms"]:Destroy()
+	game.ReplicatedStorage.Viewmodels["SASArms"]:Destroy()
+	game.ReplicatedStorage.Viewmodels["IDFArms"]:Destroy()
+	game.ReplicatedStorage.Viewmodels["UTArms"]:Destroy()
+	game.ReplicatedStorage.Viewmodels["GCTArms"]:Destroy()
+	game.ReplicatedStorage.Viewmodels["PCArms"]:Destroy()
+	game.ReplicatedStorage.Viewmodels["BDSArms"]:Destroy()
+	game.ReplicatedStorage.Viewmodels["GSGArms"]:Destroy()
+	game.ReplicatedStorage.Viewmodels["SPArms"]:Destroy()
+	game.ReplicatedStorage.Viewmodels["WDArms"]:Destroy()
+	game.ReplicatedStorage.Viewmodels["GTArms"]:Destroy()
+	game.ReplicatedStorage.Viewmodels["CSSArms"]:Destroy()
+	game.ReplicatedStorage.Viewmodels["PTArms"]:Destroy()
+	game.ReplicatedStorage.Viewmodels["AAArms"]:Destroy()
+	wait()
+	local Model1 = Instance.new("Model", game.ReplicatedStorage.Viewmodels)
+	game:GetObjects('rbxassetid://7373745005')[1].Parent = Model1
+	Model1 = game.ReplicatedStorage.Viewmodels.Model
+	for _, Child in pairs(Model1:GetChildren()) do
+	    Child.Parent = Model1.Parent
+	end
+	Model1:Destroy()
+	wait()
+	Model2 = game.ReplicatedStorage.Viewmodels["stevemc"]
+	for _, Child in pairs(Model2:GetChildren()) do
+	    Child.Parent = Model2.Parent
+	end
+	Model2:Destroy()
+	wait()
+	game.ReplicatedStorage.Viewmodels["GIGNArms"]["Left Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["GIGNArms"]["Right Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["ECArms"]["Left Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["ECArms"]["Right Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["SASArms"]["Left Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["SASArms"]["Right Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["IDFArms"]["Left Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["IDFArms"]["Right Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["UTArms"]["Left Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["UTArms"]["Right Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["GCTArms"]["Left Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["GCTArms"]["Right Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["PCArms"]["Left Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["PCArms"]["Right Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["BDSArms"]["Left Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["BDSArms"]["Right Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["GSGArms"]["Left Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["GSGArms"]["Right Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["SPArms"]["Left Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["SPArms"]["Right Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["WDArms"]["Left Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["WDArms"]["Right Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["GTArms"]["Left Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["GTArms"]["Right Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["CSSArms"]["Left Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["CSSArms"]["Right Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["PTArms"]["Left Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["PTArms"]["Right Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["AAArms"]["Left Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["AAArms"]["Right Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+lib:Notification("Danger!", "Arms can broken'.", "[OKAY]")
+
+
+
+
+
+
+elseif model == "Snake" then
+	game.ReplicatedStorage.Viewmodels["GIGNArms"]:Destroy()
+	game.ReplicatedStorage.Viewmodels["ECArms"]:Destroy()
+	game.ReplicatedStorage.Viewmodels["SASArms"]:Destroy()
+	game.ReplicatedStorage.Viewmodels["IDFArms"]:Destroy()
+	game.ReplicatedStorage.Viewmodels["UTArms"]:Destroy()
+	game.ReplicatedStorage.Viewmodels["GCTArms"]:Destroy()
+	game.ReplicatedStorage.Viewmodels["PCArms"]:Destroy()
+	game.ReplicatedStorage.Viewmodels["BDSArms"]:Destroy()
+	game.ReplicatedStorage.Viewmodels["GSGArms"]:Destroy()
+	game.ReplicatedStorage.Viewmodels["SPArms"]:Destroy()
+	game.ReplicatedStorage.Viewmodels["WDArms"]:Destroy()
+	game.ReplicatedStorage.Viewmodels["GTArms"]:Destroy()
+	game.ReplicatedStorage.Viewmodels["CSSArms"]:Destroy()
+	game.ReplicatedStorage.Viewmodels["PTArms"]:Destroy()
+	game.ReplicatedStorage.Viewmodels["AAArms"]:Destroy()
+	wait()
+	local Model1 = Instance.new("Model", game.ReplicatedStorage.Viewmodels)
+	game:GetObjects('rbxassetid://7374163732')[1].Parent = Model1
+	Model1 = game.ReplicatedStorage.Viewmodels.Model
+	for _, Child in pairs(Model1:GetChildren()) do
+	    Child.Parent = Model1.Parent
+	end
+	Model1:Destroy()
+	wait()
+	Model2 = game.ReplicatedStorage.Viewmodels["snake"]
+	for _, Child in pairs(Model2:GetChildren()) do
+ 	   Child.Parent = Model2.Parent
+	end
+	Model2:Destroy()
+	wait()
+	game.ReplicatedStorage.Viewmodels["GIGNArms"]["Left Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["GIGNArms"]["Right Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["ECArms"]["Left Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["ECArms"]["Right Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["SASArms"]["Left Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["SASArms"]["Right Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["IDFArms"]["Left Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["IDFArms"]["Right Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["UTArms"]["Left Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["UTArms"]["Right Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["GCTArms"]["Left Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["GCTArms"]["Right Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["PCArms"]["Left Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["PCArms"]["Right Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["BDSArms"]["Left Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["BDSArms"]["Right Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["GSGArms"]["Left Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["GSGArms"]["Right Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["SPArms"]["Left Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["SPArms"]["Right Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["WDArms"]["Left Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["WDArms"]["Right Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["GTArms"]["Left Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["GTArms"]["Right Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["CSSArms"]["Left Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["CSSArms"]["Right Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["PTArms"]["Left Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["PTArms"]["Right Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["AAArms"]["Left Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["AAArms"]["Right Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+lib:Notification("Danger!", "Arms can broken'.", "[OKAY]")
+
+
+
+
+elseif model == "Anarchia" then
+	game.ReplicatedStorage.Viewmodels["GIGNArms"]:Destroy()
+	game.ReplicatedStorage.Viewmodels["ECArms"]:Destroy()
+	game.ReplicatedStorage.Viewmodels["SASArms"]:Destroy()
+	game.ReplicatedStorage.Viewmodels["IDFArms"]:Destroy()
+	game.ReplicatedStorage.Viewmodels["UTArms"]:Destroy()
+	game.ReplicatedStorage.Viewmodels["GCTArms"]:Destroy()
+	game.ReplicatedStorage.Viewmodels["PCArms"]:Destroy()
+	game.ReplicatedStorage.Viewmodels["BDSArms"]:Destroy()
+	game.ReplicatedStorage.Viewmodels["GSGArms"]:Destroy()
+	game.ReplicatedStorage.Viewmodels["SPArms"]:Destroy()
+	game.ReplicatedStorage.Viewmodels["WDArms"]:Destroy()
+	game.ReplicatedStorage.Viewmodels["GTArms"]:Destroy()
+	game.ReplicatedStorage.Viewmodels["CSSArms"]:Destroy()
+	game.ReplicatedStorage.Viewmodels["PTArms"]:Destroy()
+	game.ReplicatedStorage.Viewmodels["AAArms"]:Destroy()
+	wait()
+	local Model1 = Instance.new("Model", game.ReplicatedStorage.Viewmodels)
+	game:GetObjects('rbxassetid://7374186671')[1].Parent = Model1
+	Model1 = game.ReplicatedStorage.Viewmodels.Model
+	for _, Child in pairs(Model1:GetChildren()) do
+		Child.Parent = Model1.Parent
+	end
+	Model1:Destroy()
+	wait()
+	Model2 = game.ReplicatedStorage.Viewmodels["anarchia"]
+	for _, Child in pairs(Model2:GetChildren()) do
+		Child.Parent = Model2.Parent
+	end
+	Model2:Destroy()
+	wait()
+	game.ReplicatedStorage.Viewmodels["GIGNArms"]["Left Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["GIGNArms"]["Right Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["ECArms"]["Left Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["ECArms"]["Right Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["SASArms"]["Left Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["SASArms"]["Right Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["IDFArms"]["Left Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["IDFArms"]["Right Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["UTArms"]["Left Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["UTArms"]["Right Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["GCTArms"]["Left Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["GCTArms"]["Right Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["PCArms"]["Left Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["PCArms"]["Right Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["BDSArms"]["Left Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["BDSArms"]["Right Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["GSGArms"]["Left Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["GSGArms"]["Right Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["SPArms"]["Left Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["SPArms"]["Right Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["WDArms"]["Left Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["WDArms"]["Right Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["GTArms"]["Left Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["GTArms"]["Right Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["CSSArms"]["Left Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["CSSArms"]["Right Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["PTArms"]["Left Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["PTArms"]["Right Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["AAArms"]["Left Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["AAArms"]["Right Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+lib:Notification("Danger!", "Arms can broken'.", "[OKAY]")
+
+
+
+elseif model == "Icy" then
+	game.ReplicatedStorage.Viewmodels["GIGNArms"]:Destroy()
+	game.ReplicatedStorage.Viewmodels["ECArms"]:Destroy()
+	game.ReplicatedStorage.Viewmodels["SASArms"]:Destroy()
+	game.ReplicatedStorage.Viewmodels["IDFArms"]:Destroy()
+	game.ReplicatedStorage.Viewmodels["UTArms"]:Destroy()
+	game.ReplicatedStorage.Viewmodels["GCTArms"]:Destroy()
+	game.ReplicatedStorage.Viewmodels["PCArms"]:Destroy()
+	game.ReplicatedStorage.Viewmodels["BDSArms"]:Destroy()
+	game.ReplicatedStorage.Viewmodels["GSGArms"]:Destroy()
+	game.ReplicatedStorage.Viewmodels["SPArms"]:Destroy()
+	game.ReplicatedStorage.Viewmodels["WDArms"]:Destroy()
+	game.ReplicatedStorage.Viewmodels["GTArms"]:Destroy()
+	game.ReplicatedStorage.Viewmodels["CSSArms"]:Destroy()
+	game.ReplicatedStorage.Viewmodels["PTArms"]:Destroy()
+	game.ReplicatedStorage.Viewmodels["AAArms"]:Destroy()
+	wait()
+	local Model1 = Instance.new("Model", game.ReplicatedStorage.Viewmodels)
+	game:GetObjects('rbxassetid://7374287619')[1].Parent = Model1
+	Model1 = game.ReplicatedStorage.Viewmodels.Model
+	for _, Child in pairs(Model1:GetChildren()) do
+		Child.Parent = Model1.Parent
+	end
+	Model1:Destroy()
+	wait()
+	Model2 = game.ReplicatedStorage.Viewmodels["icee"]
+	for _, Child in pairs(Model2:GetChildren()) do
+		Child.Parent = Model2.Parent
+	end
+	Model2:Destroy()
+	wait()
+	game.ReplicatedStorage.Viewmodels["GIGNArms"]["Left Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["GIGNArms"]["Right Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["ECArms"]["Left Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["ECArms"]["Right Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["SASArms"]["Left Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["SASArms"]["Right Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["IDFArms"]["Left Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["IDFArms"]["Right Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["UTArms"]["Left Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["UTArms"]["Right Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["GCTArms"]["Left Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["GCTArms"]["Right Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["PCArms"]["Left Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["PCArms"]["Right Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["BDSArms"]["Left Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["BDSArms"]["Right Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["GSGArms"]["Left Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["GSGArms"]["Right Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["SPArms"]["Left Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["SPArms"]["Right Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["WDArms"]["Left Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["WDArms"]["Right Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["GTArms"]["Left Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["GTArms"]["Right Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["CSSArms"]["Left Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["CSSArms"]["Right Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["PTArms"]["Left Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["PTArms"]["Right Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["AAArms"]["Left Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+	game.ReplicatedStorage.Viewmodels["AAArms"]["Right Arm"].Mesh.TextureId = "rbxassetid://6684681077"
+lib:Notification("Danger!", "Arms can broken'.", "[OKAY]")
+
+end
+end)
+
+
+
+customs_tab:Dropdown("BloxFun Viewmodels",{"Megu Staff","Codol","Freedom","Pearl","Neko Claws","Megu Statue","Talon","Skeleton","Nomad","Sausage","Daggers","Corvus"}, function(model)
+if model == "Neko Claws" then
+	game.ReplicatedStorage.Viewmodels["v_CT Knife"]:Destroy()
+	game.ReplicatedStorage.Viewmodels["v_T Knife"]:Destroy()
+	wait()
+	local Model1 = Instance.new("Model", game.ReplicatedStorage.Viewmodels)
+	game:GetObjects('rbxassetid://7160973139')[1].Parent = Model1
+	Model = game.ReplicatedStorage.Viewmodels.Model
+	for _, Child in pairs(Model:GetChildren()) do
+		Child.Parent = Model.Parent
+	end
+	Model:Destroy()
+	wait()
+	local Model1 = Instance.new("Model", game.ReplicatedStorage.Viewmodels)
+	game:GetObjects('rbxassetid://7160973139')[1].Parent = Model1
+	Model = game.ReplicatedStorage.Viewmodels.Model
+	for _, Child in pairs(Model:GetChildren()) do
+		Child.Parent = Model.Parent
+	end
+	Model:Destroy()
+	wait()
+	game.ReplicatedStorage.Viewmodels["v_kogti"].Name = "v_CT Knife"
+	game.ReplicatedStorage.Viewmodels["v_kogti"].Name = "v_T Knife"
+lib:Notification("ReadMe!", "Please, equip starter knife'.", "[OKAY]")
+
+
+
+
+
+
+elseif model == "Megu Statue" then
+	game.ReplicatedStorage.Viewmodels["v_CT Knife"]:Destroy()
+	game.ReplicatedStorage.Viewmodels["v_T Knife"]:Destroy()
+	wait()
+	local Model1 = Instance.new("Model", game.ReplicatedStorage.Viewmodels)
+	game:GetObjects('rbxassetid://7161024042')[1].Parent = Model1
+	Model = game.ReplicatedStorage.Viewmodels.Model
+	for _, Child in pairs(Model:GetChildren()) do
+		Child.Parent = Model.Parent
+	end
+	Model:Destroy()
+	wait()
+	local Model1 = Instance.new("Model", game.ReplicatedStorage.Viewmodels)
+	game:GetObjects('rbxassetid://7161024042')[1].Parent = Model1
+	Model = game.ReplicatedStorage.Viewmodels.Model
+	for _, Child in pairs(Model:GetChildren()) do
+		Child.Parent = Model.Parent
+	end
+	Model:Destroy()
+	wait()
+	game.ReplicatedStorage.Viewmodels["v_megu"].Name = "v_CT Knife"
+	game.ReplicatedStorage.Viewmodels["v_megu"].Name = "v_T Knife"
+lib:Notification("ReadMe!", "Please, equip starter knife'.", "[OKAY]")
+
+
+
+
+
+elseif model == "Megu Staff" then
+	game.ReplicatedStorage.Viewmodels["v_CT Knife"]:Destroy()
+	game.ReplicatedStorage.Viewmodels["v_T Knife"]:Destroy()
+	wait()
+	local Model1 = Instance.new("Model", game.ReplicatedStorage.Viewmodels)
+	game:GetObjects('rbxassetid://7259218667')[1].Parent = Model1
+	Model = game.ReplicatedStorage.Viewmodels.Model
+	for _, Child in pairs(Model:GetChildren()) do
+		Child.Parent = Model.Parent
+	end
+	Model:Destroy()
+	wait()
+	local Model1 = Instance.new("Model", game.ReplicatedStorage.Viewmodels)
+	game:GetObjects('rbxassetid://7259218667')[1].Parent = Model1
+	Model = game.ReplicatedStorage.Viewmodels.Model
+	for _, Child in pairs(Model:GetChildren()) do
+		Child.Parent = Model.Parent
+	end
+	Model:Destroy()
+	wait()
+	game.ReplicatedStorage.Viewmodels["v_Staff"].Name = "v_CT Knife"
+	game.ReplicatedStorage.Viewmodels["v_Staff"].Name = "v_T Knife"
+lib:Notification("ReadMe!", "Please, equip starter knife'.", "[OKAY]")
+
+
+
+
+
+elseif model == "Sausage" then
+	game.ReplicatedStorage.Viewmodels["v_CT Knife"]:Destroy()
+	game.ReplicatedStorage.Viewmodels["v_T Knife"]:Destroy()
+	wait()
+	local Model1 = Instance.new("Model", game.ReplicatedStorage.Viewmodels)
+	game:GetObjects('rbxassetid://7161045678')[1].Parent = Model1
+	Model = game.ReplicatedStorage.Viewmodels.Model
+	for _, Child in pairs(Model:GetChildren()) do
+		Child.Parent = Model.Parent
+	end
+	Model:Destroy()
+	wait()
+	local Model1 = Instance.new("Model", game.ReplicatedStorage.Viewmodels)
+	game:GetObjects('rbxassetid://7161045678')[1].Parent = Model1
+	Model = game.ReplicatedStorage.Viewmodels.Model
+	for _, Child in pairs(Model:GetChildren()) do
+		Child.Parent = Model.Parent
+	end
+	Model:Destroy()
+	wait()
+	game.ReplicatedStorage.Viewmodels["v_sausage"].Name = "v_CT Knife"
+	game.ReplicatedStorage.Viewmodels["v_sausage"].Name = "v_T Knife"
+lib:Notification("ReadMe!", "Please, equip starter knife'.", "[OKAY]")
+
+
+
+
+
+
+elseif model == "Nomad" then
+	game.ReplicatedStorage.Viewmodels["v_CT Knife"]:Destroy()
+	game.ReplicatedStorage.Viewmodels["v_T Knife"]:Destroy()
+	wait()
+	local Model1 = Instance.new("Model", game.ReplicatedStorage.Viewmodels)
+	game:GetObjects('rbxassetid://7161049979')[1].Parent = Model1
+	Model = game.ReplicatedStorage.Viewmodels.Model
+	for _, Child in pairs(Model:GetChildren()) do
+		Child.Parent = Model.Parent
+	end
+	Model:Destroy()
+	wait()
+	local Model1 = Instance.new("Model", game.ReplicatedStorage.Viewmodels)
+	game:GetObjects('rbxassetid://7161049979')[1].Parent = Model1
+	Model = game.ReplicatedStorage.Viewmodels.Model
+	for _, Child in pairs(Model:GetChildren()) do
+		Child.Parent = Model.Parent
+	end
+	Model:Destroy()
+	wait()
+	game.ReplicatedStorage.Viewmodels["nomadfix"].Name = "v_CT Knife"
+	game.ReplicatedStorage.Viewmodels["nomadfix"].Name = "v_T Knife"
+lib:Notification("ReadMe!", "Please, equip starter knife'.", "[OKAY]")
+
+
+
+
+
+
+
+elseif model == "Daggers" then
+	game.ReplicatedStorage.Viewmodels["v_CT Knife"]:Destroy()
+	game.ReplicatedStorage.Viewmodels["v_T Knife"]:Destroy()
+	wait()
+	local Model1 = Instance.new("Model", game.ReplicatedStorage.Viewmodels)
+	game:GetObjects('rbxassetid://7161082619')[1].Parent = Model1
+	Model = game.ReplicatedStorage.Viewmodels.Model
+	for _, Child in pairs(Model:GetChildren()) do
+		Child.Parent = Model.Parent
+	end
+	Model:Destroy()
+	wait()
+	local Model1 = Instance.new("Model", game.ReplicatedStorage.Viewmodels)
+	game:GetObjects('rbxassetid://7161082619')[1].Parent = Model1
+	Model = game.ReplicatedStorage.Viewmodels.Model
+	for _, Child in pairs(Model:GetChildren()) do
+		Child.Parent = Model.Parent
+	end
+	Model:Destroy()
+	wait()
+	game.ReplicatedStorage.Viewmodels["v_daggers"].Name = "v_CT Knife"
+	game.ReplicatedStorage.Viewmodels["v_daggers"].Name = "v_T Knife"
+
+lib:Notification("ReadMe!", "Please, equip starter knife'.", "[OKAY]")
+
+
+
+
+
+
+
+
+
+
+
+
+elseif model == "Corvus" then
+	game.ReplicatedStorage.Viewmodels["v_CT Knife"]:Destroy()
+	game.ReplicatedStorage.Viewmodels["v_T Knife"]:Destroy()
+	wait()
+	local Model1 = Instance.new("Model", game.ReplicatedStorage.Viewmodels)
+	game:GetObjects('rbxassetid://7161100828')[1].Parent = Model1
+	Model = game.ReplicatedStorage.Viewmodels.Model
+	for _, Child in pairs(Model:GetChildren()) do
+		Child.Parent = Model.Parent
+	end
+	Model:Destroy()
+	wait()
+	local Model1 = Instance.new("Model", game.ReplicatedStorage.Viewmodels)
+	game:GetObjects('rbxassetid://7161100828')[1].Parent = Model1
+	Model = game.ReplicatedStorage.Viewmodels.Model
+	for _, Child in pairs(Model:GetChildren()) do
+		Child.Parent = Model.Parent
+	end
+	Model:Destroy()
+	wait()
+	game.ReplicatedStorage.Viewmodels["v_goldmesh"].Name = "v_CT Knife"
+	game.ReplicatedStorage.Viewmodels["v_goldmesh"].Name = "v_T Knife"
+	wait()
+	game.ReplicatedStorage.Viewmodels["v_CT Knife"]["Present Bottom"].TextureID = "rbxassetid://6658323899"
+	game.ReplicatedStorage.Viewmodels["v_T Knife"]["Present Bottom"].TextureID = "rbxassetid://6658323899"
+lib:Notification("ReadMe!", "Please, equip starter knife'.", "[OKAY]")
+
+
+
+
+
+
+
+
+
+
+
+
+elseif model == "Talon" then
+	game.ReplicatedStorage.Viewmodels["v_CT Knife"]:Destroy()
+	game.ReplicatedStorage.Viewmodels["v_T Knife"]:Destroy()
+	wait()
+	local Model1 = Instance.new("Model", game.ReplicatedStorage.Viewmodels)
+	game:GetObjects('rbxassetid://7161116966')[1].Parent = Model1
+	Model = game.ReplicatedStorage.Viewmodels.Model
+	for _, Child in pairs(Model:GetChildren()) do
+		Child.Parent = Model.Parent
+	end
+	Model:Destroy()
+	wait()
+	local Model1 = Instance.new("Model", game.ReplicatedStorage.Viewmodels)
+	game:GetObjects('rbxassetid://7161116966')[1].Parent = Model1
+	Model = game.ReplicatedStorage.Viewmodels.Model
+	for _, Child in pairs(Model:GetChildren()) do
+		Child.Parent = Model.Parent
+	end
+	Model:Destroy()
+	wait()
+	game.ReplicatedStorage.Viewmodels["v_talon"].Name = "v_CT Knife"
+	game.ReplicatedStorage.Viewmodels["v_talon"].Name = "v_T Knife"
+lib:Notification("ReadMe!", "Please, equip starter knife'.", "[OKAY]")
+
+
+
+
+
+
+
+
+
+elseif model == "Skeleton" then
+	game.ReplicatedStorage.Viewmodels["v_CT Knife"]:Destroy()
+	game.ReplicatedStorage.Viewmodels["v_T Knife"]:Destroy()
+	wait()
+	local Model1 = Instance.new("Model", game.ReplicatedStorage.Viewmodels)
+	game:GetObjects('rbxassetid://7161149241')[1].Parent = Model1
+	Model = game.ReplicatedStorage.Viewmodels.Model
+	for _, Child in pairs(Model:GetChildren()) do
+		Child.Parent = Model.Parent
+	end
+	Model:Destroy()
+	wait()
+	local Model1 = Instance.new("Model", game.ReplicatedStorage.Viewmodels)
+	game:GetObjects('rbxassetid://7161149241')[1].Parent = Model1
+	Model = game.ReplicatedStorage.Viewmodels.Model
+	for _, Child in pairs(Model:GetChildren()) do
+		Child.Parent = Model.Parent
+	end
+	Model:Destroy()
+	wait()
+	game.ReplicatedStorage.Viewmodels["v_skeletonknife"].Name = "v_CT Knife"
+	game.ReplicatedStorage.Viewmodels["v_skeletonknife"].Name = "v_T Knife"
+lib:Notification("ReadMe!", "Please, equip starter knife'.", "[OKAY]")
+
+
+elseif model == "Freedom" then
+	game.ReplicatedStorage.Viewmodels["v_AWP"]:Destroy()
+	wait()
+	local Model1 = Instance.new("Model", game.ReplicatedStorage.Viewmodels)
+	game:GetObjects('rbxassetid://7161374917')[1].Parent = Model1
+	Model = game.ReplicatedStorage.Viewmodels.Model
+	for _, Child in pairs(Model:GetChildren()) do
+		Child.Parent = Model.Parent
+	end
+	Model:Destroy()
+	game.ReplicatedStorage.Viewmodels["v_freedomawp"].Name = "v_AWP"
+lib:Notification("ReadMe!", "Please, equip AWP'.", "[OKAY]")
+
+
+
+
+
+
+elseif model == "Codol" then
+	game.ReplicatedStorage.Viewmodels["v_AWP"]:Destroy()
+	wait()
+	local Model1 = Instance.new("Model", game.ReplicatedStorage.Viewmodels)
+	game:GetObjects('rbxassetid://7161371614')[1].Parent = Model1
+	Model = game.ReplicatedStorage.Viewmodels.Model
+	for _, Child in pairs(Model:GetChildren()) do
+		Child.Parent = Model.Parent
+	end
+	Model:Destroy()
+	game.ReplicatedStorage.Viewmodels["v_codol"].Name = "v_AWP"
+lib:Notification("ReadMe!", "Please, equip AWP'.", "[OKAY]")
+
+
+
+elseif model == "Pearl" then
+	game.ReplicatedStorage.Viewmodels["v_AK47"]:Destroy()
+	wait()
+	local Model1 = Instance.new("Model", game.ReplicatedStorage.Viewmodels)
+	game:GetObjects('rbxassetid://7161341595')[1].Parent = Model1
+	Model = game.ReplicatedStorage.Viewmodels.Model
+	for _, Child in pairs(Model:GetChildren()) do
+		Child.Parent = Model.Parent
+	end
+	Model:Destroy()
+	game.ReplicatedStorage.Viewmodels["v_AK47pearl1"].Name = "v_AK47"
+lib:Notification("ReadMe!", "Please, equip AK-47'.", "[OKAY]")
+
+
+
+
+
+end
+end)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+customs_tab:Dropdown("M9 Bayonet Skins",{"Sunset Storm","Secrets","Cyan Touch","Toxic Waste","Ultra-Purple","Graffiti","Evolve","XMAS Spirit","Wrapped Up","Waves","Water Elemental","Voley","Ugly Gift","Ugly Gift 2","Present","Ice Cream","HoHoHo","Happy Trees","Candy","Aloha","Unicorn Gradient","Colorly","Rusty","Toxic Rain","Hoennm Starters","Dark Vulcano","Pixieler","Autotronic","Freehand","Lore","Vanilla","Gamma Doppler Phase 4","Gamma Doppler Phase 2","Doppler Sapphire","Doppler Ruby","Waves Phase 3","Crimson Web","Lighting Strike"}, function(knifes)
+	if knifes == "Sunset Storm" then
+		game.ReplicatedStorage.Weapons.Bayonet.Model.Handle.MeshId = "rbxassetid://6473522916"
+		game.ReplicatedStorage.Viewmodels["v_Bayonet"].Handle.MeshId = "rbxassetid://6473522916"
+		game.Players.LocalPlayer.PlayerGui.Client.Images["Bayonet"]["Splattered"].Value = "rbxassetid://6474550478"
+		game.ReplicatedStorage.Skins["Bayonet"]["Splattered"].WorldModel.Main.Value = "rbxassetid://6359603309"
+		game.ReplicatedStorage.Skins["Bayonet"]["Splattered"].Handle.Value = "rbxassetid://6359603309"
+
+
+
+
+		lib:Notification("ReadMe!", "Please, equip  'Bayonet|Splattered'.", "[OKAY]")
+elseif knifes == "Secrets" then
+	game.ReplicatedStorage.Weapons.Bayonet.Model.Handle.MeshId = "rbxassetid://6473522916"
+	game.ReplicatedStorage.Viewmodels["v_Bayonet"].Handle.MeshId = "rbxassetid://6473522916"
+	game.Players.LocalPlayer.PlayerGui.Client.Images["Bayonet"]["Splattered"].Value = "rbxassetid://6474550478"
+	game.ReplicatedStorage.Skins["Bayonet"]["Splattered"].WorldModel.Main.Value = "rbxassetid://6359602299"
+	game.ReplicatedStorage.Skins["Bayonet"]["Splattered"].Handle.Value = "rbxassetid://6359602299"
+		lib:Notification("ReadMe!", "Please, equip  'Bayonet|Splattered'.", "[OKAY]")
+elseif knifes == "Cyan Touch" then
+	game.ReplicatedStorage.Weapons.Bayonet.Model.Handle.MeshId = "rbxassetid://6473522916"
+	game.ReplicatedStorage.Viewmodels["v_Bayonet"].Handle.MeshId = "rbxassetid://6473522916"
+	game.Players.LocalPlayer.PlayerGui.Client.Images["Bayonet"]["Splattered"].Value = "rbxassetid://6474550478"
+	game.ReplicatedStorage.Skins["Bayonet"]["Splattered"].WorldModel.Main.Value = "rbxassetid://6359601202"
+	game.ReplicatedStorage.Skins["Bayonet"]["Splattered"].Handle.Value = "rbxassetid://6359601202"
+		lib:Notification("ReadMe!", "Please, equip  'Bayonet|Splattered'.", "[OKAY]")
+elseif knifes == "Toxic Waste" then
+	game.ReplicatedStorage.Weapons.Bayonet.Model.Handle.MeshId = "rbxassetid://6473522916"
+	game.ReplicatedStorage.Viewmodels["v_Bayonet"].Handle.MeshId = "rbxassetid://6473522916"
+	game.Players.LocalPlayer.PlayerGui.Client.Images["Bayonet"]["Splattered"].Value = "rbxassetid://6474550478"
+	game.ReplicatedStorage.Skins["Bayonet"]["Splattered"].WorldModel.Main.Value = "rbxassetid://6359600098"
+	game.ReplicatedStorage.Skins["Bayonet"]["Splattered"].Handle.Value = "rbxassetid://6359600098"
+		lib:Notification("ReadMe!", "Please, equip  'Bayonet|Splattered'.", "[OKAY]")
+elseif knifes == "Ultra-Purple" then
+	game.ReplicatedStorage.Weapons.Bayonet.Model.Handle.MeshId = "rbxassetid://6473522916"
+	game.ReplicatedStorage.Viewmodels["v_Bayonet"].Handle.MeshId = "rbxassetid://6473522916"
+	game.Players.LocalPlayer.PlayerGui.Client.Images["Bayonet"]["Splattered"].Value = "rbxassetid://6474550478"
+	game.ReplicatedStorage.Skins["Bayonet"]["Splattered"].WorldModel.Main.Value = "rbxassetid://6359598794"
+	game.ReplicatedStorage.Skins["Bayonet"]["Splattered"].Handle.Value = "rbxassetid://6359598794"
+		lib:Notification("ReadMe!", "Please, equip  'Bayonet|Splattered'.", "[OKAY]")
+elseif knifes == "Graffiti" then
+	game.ReplicatedStorage.Weapons.Bayonet.Model.Handle.MeshId = "rbxassetid://6473522916"
+	game.ReplicatedStorage.Viewmodels["v_Bayonet"].Handle.MeshId = "rbxassetid://6473522916"
+	game.Players.LocalPlayer.PlayerGui.Client.Images["Bayonet"]["Splattered"].Value = "rbxassetid://6474550478"
+	game.ReplicatedStorage.Skins["Bayonet"]["Splattered"].WorldModel.Main.Value = "rbxassetid://6359596536"
+	game.ReplicatedStorage.Skins["Bayonet"]["Splattered"].Handle.Value = "rbxassetid://6359596536"
+		lib:Notification("ReadMe!", "Please, equip  'Bayonet|Splattered'.", "[OKAY]")
+elseif knifes == "Evolve" then
+	game.ReplicatedStorage.Weapons.Bayonet.Model.Handle.MeshId = "rbxassetid://6473522916"
+	game.ReplicatedStorage.Viewmodels["v_Bayonet"].Handle.MeshId = "rbxassetid://6473522916"
+	game.Players.LocalPlayer.PlayerGui.Client.Images["Bayonet"]["Splattered"].Value = "rbxassetid://6474550478"
+	game.ReplicatedStorage.Skins["Bayonet"]["Splattered"].WorldModel.Main.Value = "rbxassetid://6359594546"
+	game.ReplicatedStorage.Skins["Bayonet"]["Splattered"].Handle.Value = "rbxassetid://6359594546"
+		lib:Notification("ReadMe!", "Please, equip  'Bayonet|Splattered'.", "[OKAY]")
+elseif knifes == "XMAS Spirit" then
+	game.ReplicatedStorage.Weapons.Bayonet.Model.Handle.MeshId = "rbxassetid://6473522916"
+	game.ReplicatedStorage.Viewmodels["v_Bayonet"].Handle.MeshId = "rbxassetid://6473522916"
+	game.Players.LocalPlayer.PlayerGui.Client.Images["Bayonet"]["Splattered"].Value = "rbxassetid://6474550478"
+	game.ReplicatedStorage.Skins["Bayonet"]["Splattered"].WorldModel.Main.Value = "rbxassetid://6359593431"
+	game.ReplicatedStorage.Skins["Bayonet"]["Splattered"].Handle.Value = "rbxassetid://6359593431"
+		lib:Notification("ReadMe!", "Please, equip  'Bayonet|Splattered'.", "[OKAY]")
+elseif knifes == "Wrapped Up" then
+	game.ReplicatedStorage.Weapons.Bayonet.Model.Handle.MeshId = "rbxassetid://6473522916"
+	game.ReplicatedStorage.Viewmodels["v_Bayonet"].Handle.MeshId = "rbxassetid://6473522916"
+	game.Players.LocalPlayer.PlayerGui.Client.Images["Bayonet"]["Splattered"].Value = "rbxassetid://6474550478"
+	game.ReplicatedStorage.Skins["Bayonet"]["Splattered"].WorldModel.Main.Value = "rbxassetid://6359592564"
+	game.ReplicatedStorage.Skins["Bayonet"]["Splattered"].Handle.Value = "rbxassetid://6359592564"
+		lib:Notification("ReadMe!", "Please, equip  'Bayonet|Splattered'.", "[OKAY]")
+elseif knifes == "Waves" then
+	game.ReplicatedStorage.Weapons.Bayonet.Model.Handle.MeshId = "rbxassetid://6473522916"
+	game.ReplicatedStorage.Viewmodels["v_Bayonet"].Handle.MeshId = "rbxassetid://6473522916"
+	game.Players.LocalPlayer.PlayerGui.Client.Images["Bayonet"]["Splattered"].Value = "rbxassetid://6474550478"
+	game.ReplicatedStorage.Skins["Bayonet"]["Splattered"].WorldModel.Main.Value = "rbxassetid://6359591245"
+	game.ReplicatedStorage.Skins["Bayonet"]["Splattered"].Handle.Value = "rbxassetid://6359591245"
+		lib:Notification("ReadMe!", "Please, equip  'Bayonet|Splattered'.", "[OKAY]")
+elseif knifes == "Water Elemental" then
+	game.ReplicatedStorage.Weapons.Bayonet.Model.Handle.MeshId = "rbxassetid://6473522916"
+	game.ReplicatedStorage.Viewmodels["v_Bayonet"].Handle.MeshId = "rbxassetid://6473522916"
+	game.Players.LocalPlayer.PlayerGui.Client.Images["Bayonet"]["Splattered"].Value = "rbxassetid://6474550478"
+	game.ReplicatedStorage.Skins["Bayonet"]["Splattered"].WorldModel.Main.Value = "rbxassetid://6359590273"
+	game.ReplicatedStorage.Skins["Bayonet"]["Splattered"].Handle.Value = "rbxassetid://6359590273"
+		lib:Notification("ReadMe!", "Please, equip  'Bayonet|Splattered'.", "[OKAY]")
+elseif knifes == "Voley" then
+	game.ReplicatedStorage.Weapons.Bayonet.Model.Handle.MeshId = "rbxassetid://6473522916"
+	game.ReplicatedStorage.Viewmodels["v_Bayonet"].Handle.MeshId = "rbxassetid://6473522916"
+	game.Players.LocalPlayer.PlayerGui.Client.Images["Bayonet"]["Splattered"].Value = "rbxassetid://6474550478"
+	game.ReplicatedStorage.Skins["Bayonet"]["Splattered"].WorldModel.Main.Value = "rbxassetid://6359589106"
+	game.ReplicatedStorage.Skins["Bayonet"]["Splattered"].Handle.Value = "rbxassetid://6359589106"
+		lib:Notification("ReadMe!", "Please, equip  'Bayonet|Splattered'.", "[OKAY]")
+elseif knifes == "Ugly Gift 2" then
+	game.ReplicatedStorage.Weapons.Bayonet.Model.Handle.MeshId = "rbxassetid://6473522916"
+	game.ReplicatedStorage.Viewmodels["v_Bayonet"].Handle.MeshId = "rbxassetid://6473522916"
+	game.Players.LocalPlayer.PlayerGui.Client.Images["Bayonet"]["Splattered"].Value = "rbxassetid://6474550478"
+	game.ReplicatedStorage.Skins["Bayonet"]["Splattered"].WorldModel.Main.Value = "rbxassetid://6359588226"
+	game.ReplicatedStorage.Skins["Bayonet"]["Splattered"].Handle.Value = "rbxassetid://6359588226"
+		lib:Notification("ReadMe!", "Please, equip  'Bayonet|Splattered'.", "[OKAY]")
+elseif knifes == "Ugly Gift " then
+	game.ReplicatedStorage.Weapons.Bayonet.Model.Handle.MeshId = "rbxassetid://6473522916"
+	game.ReplicatedStorage.Viewmodels["v_Bayonet"].Handle.MeshId = "rbxassetid://6473522916"
+	game.Players.LocalPlayer.PlayerGui.Client.Images["Bayonet"]["Splattered"].Value = "rbxassetid://6474550478"
+	game.ReplicatedStorage.Skins["Bayonet"]["Splattered"].WorldModel.Main.Value = "rbxassetid://6359586568"
+	game.ReplicatedStorage.Skins["Bayonet"]["Splattered"].Handle.Value = "rbxassetid://6359586568"
+		lib:Notification("ReadMe!", "Please, equip  'Bayonet|Splattered'.", "[OKAY]")
+elseif knifes == "Present" then
+	game.ReplicatedStorage.Weapons.Bayonet.Model.Handle.MeshId = "rbxassetid://6473522916"
+	game.ReplicatedStorage.Viewmodels["v_Bayonet"].Handle.MeshId = "rbxassetid://6473522916"
+	game.Players.LocalPlayer.PlayerGui.Client.Images["Bayonet"]["Splattered"].Value = "rbxassetid://6474550478"
+	game.ReplicatedStorage.Skins["Bayonet"]["Splattered"].WorldModel.Main.Value = "rbxassetid://6359585483"
+	game.ReplicatedStorage.Skins["Bayonet"]["Splattered"].Handle.Value = "rbxassetid://6359585483"
+		lib:Notification("ReadMe!", "Please, equip  'Bayonet|Splattered'.", "[OKAY]")
+elseif knifes == "Ice Cream" then
+	game.ReplicatedStorage.Weapons.Bayonet.Model.Handle.MeshId = "rbxassetid://6473522916"
+	game.ReplicatedStorage.Viewmodels["v_Bayonet"].Handle.MeshId = "rbxassetid://6473522916"
+	game.Players.LocalPlayer.PlayerGui.Client.Images["Bayonet"]["Splattered"].Value = "rbxassetid://6474550478"
+	game.ReplicatedStorage.Skins["Bayonet"]["Splattered"].WorldModel.Main.Value = "rbxassetid://6359584760"
+	game.ReplicatedStorage.Skins["Bayonet"]["Splattered"].Handle.Value = "rbxassetid://6359584760"
+		lib:Notification("ReadMe!", "Please, equip  'Bayonet|Splattered'.", "[OKAY]")
+elseif knifes == "HoHoHo" then
+	game.ReplicatedStorage.Weapons.Bayonet.Model.Handle.MeshId = "rbxassetid://6473522916"
+	game.ReplicatedStorage.Viewmodels["v_Bayonet"].Handle.MeshId = "rbxassetid://6473522916"
+	game.Players.LocalPlayer.PlayerGui.Client.Images["Bayonet"]["Splattered"].Value = "rbxassetid://6474550478"
+	game.Players.LocalPlayer.PlayerGui.Client.Images["Bayonet"]["Splattered"].Value = "rbxassetid://6474550478"
+	game.ReplicatedStorage.Skins["Bayonet"]["Splattered"].WorldModel.Main.Value = "rbxassetid://6359583676"
+	game.ReplicatedStorage.Skins["Bayonet"]["Splattered"].Handle.Value = "rbxassetid://6359583676"
+		lib:Notification("ReadMe!", "Please, equip  'Bayonet|Splattered'.", "[OKAY]")
+elseif knifes == "Happy Trees" then
+	game.ReplicatedStorage.Weapons.Bayonet.Model.Handle.MeshId = "rbxassetid://6473522916"
+	game.ReplicatedStorage.Viewmodels["v_Bayonet"].Handle.MeshId = "rbxassetid://6473522916"
+	game.Players.LocalPlayer.PlayerGui.Client.Images["Bayonet"]["Splattered"].Value = "rbxassetid://6474550478"
+	game.ReplicatedStorage.Skins["Bayonet"]["Splattered"].WorldModel.Main.Value = "rbxassetid://6359582646"
+	game.ReplicatedStorage.Skins["Bayonet"]["Splattered"].Handle.Value = "rbxassetid://6359582646"
+		lib:Notification("ReadMe!", "Please, equip  'Bayonet|Splattered'.", "[OKAY]")
+elseif knifes == "Candy" then
+	game.ReplicatedStorage.Weapons.Bayonet.Model.Handle.MeshId = "rbxassetid://6473522916"
+	game.ReplicatedStorage.Viewmodels["v_Bayonet"].Handle.MeshId = "rbxassetid://6473522916"
+	game.Players.LocalPlayer.PlayerGui.Client.Images["Bayonet"]["Splattered"].Value = "rbxassetid://6474550478"
+	game.ReplicatedStorage.Skins["Bayonet"]["Splattered"].WorldModel.Main.Value = "rbxassetid://6359581283"
+	game.ReplicatedStorage.Skins["Bayonet"]["Splattered"].Handle.Value = "rbxassetid://6359581283"
+		lib:Notification("ReadMe!", "Please, equip  'Bayonet|Splattered'.", "[OKAY]")
+elseif knifes == "Aloha" then
+	game.ReplicatedStorage.Weapons.Bayonet.Model.Handle.MeshId = "rbxassetid://6473522916"
+	game.ReplicatedStorage.Viewmodels["v_Bayonet"].Handle.MeshId = "rbxassetid://6473522916"
+	game.Players.LocalPlayer.PlayerGui.Client.Images["Bayonet"]["Splattered"].Value = "rbxassetid://6474550478"
+	game.Players.LocalPlayer.PlayerGui.Client.Images["Bayonet"]["Splattered"].Value = "rbxassetid://6474550478"
+	game.ReplicatedStorage.Skins["Bayonet"]["Splattered"].WorldModel.Main.Value = "rbxassetid://6359580505"
+	game.ReplicatedStorage.Skins["Bayonet"]["Splattered"].Handle.Value = "rbxassetid://6359580505"
+		lib:Notification("ReadMe!", "Please, equip  'Bayonet|Splattered'.", "[OKAY]")
+elseif knifes == "Colorly" then
+	game.ReplicatedStorage.Weapons.Bayonet.Model.Handle.MeshId = "rbxassetid://6473522916"
+	game.ReplicatedStorage.Viewmodels["v_Bayonet"].Handle.MeshId = "rbxassetid://6473522916"
+	game.Players.LocalPlayer.PlayerGui.Client.Images["Bayonet"]["Splattered"].Value = "rbxassetid://6474550478"
+	game.ReplicatedStorage.Skins["Bayonet"]["Splattered"].WorldModel.Main.Value = "rbxassetid://6359579758"
+	game.ReplicatedStorage.Skins["Bayonet"]["Splattered"].Handle.Value = "rbxassetid://6359579758"
+		lib:Notification("ReadMe!", "Please, equip  'Bayonet|Splattered'.", "[OKAY]")
+elseif knifes == "Unicorn Gradient" then
+	game.ReplicatedStorage.Weapons.Bayonet.Model.Handle.MeshId = "rbxassetid://6473522916"
+	game.ReplicatedStorage.Viewmodels["v_Bayonet"].Handle.MeshId = "rbxassetid://6473522916"
+	game.Players.LocalPlayer.PlayerGui.Client.Images["Bayonet"]["Splattered"].Value = "rbxassetid://6474550478"
+	game.ReplicatedStorage.Skins["Bayonet"]["Splattered"].WorldModel.Main.Value = "rbxassetid://6359577496"
+	game.ReplicatedStorage.Skins["Bayonet"]["Splattered"].Handle.Value = "rbxassetid://6359577496"
+		lib:Notification("ReadMe!", "Please, equip  'Bayonet|Splattered'.", "[OKAY]")
+elseif knifes == "Rusty" then
+	game.ReplicatedStorage.Weapons.Bayonet.Model.Handle.MeshId = "rbxassetid://6473522916"
+	game.ReplicatedStorage.Viewmodels["v_Bayonet"].Handle.MeshId = "rbxassetid://6473522916"
+	game.Players.LocalPlayer.PlayerGui.Client.Images["Bayonet"]["Splattered"].Value = "rbxassetid://6474550478"
+	game.ReplicatedStorage.Skins["Bayonet"]["Splattered"].WorldModel.Main.Value = "rbxassetid://6359574636"
+	game.ReplicatedStorage.Skins["Bayonet"]["Splattered"].Handle.Value = "rbxassetid://6359574636"
+		lib:Notification("ReadMe!", "Please, equip  'Bayonet|Splattered'.", "[OKAY]")
+elseif knifes == "Toxic Rain" then
+	game.ReplicatedStorage.Weapons.Bayonet.Model.Handle.MeshId = "rbxassetid://6473522916"
+	game.ReplicatedStorage.Viewmodels["v_Bayonet"].Handle.MeshId = "rbxassetid://6473522916"
+	game.Players.LocalPlayer.PlayerGui.Client.Images["Bayonet"]["Splattered"].Value = "rbxassetid://6474550478"
+	game.ReplicatedStorage.Skins["Bayonet"]["Splattered"].WorldModel.Main.Value = "rbxassetid://6359568652"
+	game.ReplicatedStorage.Skins["Bayonet"]["Splattered"].Handle.Value = "rbxassetid://6359568652"
+		lib:Notification("ReadMe!", "Please, equip  'Bayonet|Splattered'.", "[OKAY]")
+elseif knifes == "Hoennm Starters" then
+	game.ReplicatedStorage.Weapons.Bayonet.Model.Handle.MeshId = "rbxassetid://6473522916"
+	game.ReplicatedStorage.Viewmodels["v_Bayonet"].Handle.MeshId = "rbxassetid://6473522916"
+	game.Players.LocalPlayer.PlayerGui.Client.Images["Bayonet"]["Splattered"].Value = "rbxassetid://6474550478"
+	game.ReplicatedStorage.Skins["Bayonet"]["Splattered"].WorldModel.Main.Value = "rbxassetid://6359560233"
+	game.ReplicatedStorage.Skins["Bayonet"]["Splattered"].Handle.Value = "rbxassetid://6359560233"
+		lib:Notification("ReadMe!", "Please, equip  'Bayonet|Splattered'.", "[OKAY]")
+elseif knifes == "Dark Vulcano" then
+	game.ReplicatedStorage.Weapons.Bayonet.Model.Handle.MeshId = "rbxassetid://6473522916"
+	game.ReplicatedStorage.Viewmodels["v_Bayonet"].Handle.MeshId = "rbxassetid://6473522916"
+	game.Players.LocalPlayer.PlayerGui.Client.Images["Bayonet"]["Splattered"].Value = "rbxassetid://6474550478"
+	game.ReplicatedStorage.Skins["Bayonet"]["Splattered"].WorldModel.Main.Value = "rbxassetid://6359551291"
+	game.ReplicatedStorage.Skins["Bayonet"]["Splattered"].Handle.Value = "rbxassetid://6359551291"
+		lib:Notification("ReadMe!", "Please, equip  'Bayonet|Splattered'.", "[OKAY]")
+elseif knifes == "Pixieler" then
+	game.ReplicatedStorage.Weapons.Bayonet.Model.Handle.MeshId = "rbxassetid://6473522916"
+	game.ReplicatedStorage.Viewmodels["v_Bayonet"].Handle.MeshId = "rbxassetid://6473522916"
+	game.Players.LocalPlayer.PlayerGui.Client.Images["Bayonet"]["Splattered"].Value = "rbxassetid://6474550478"
+	game.ReplicatedStorage.Skins["Bayonet"]["Splattered"].WorldModel.Main.Value = "rbxassetid://6355250074"
+	game.ReplicatedStorage.Skins["Bayonet"]["Splattered"].Handle.Value = "rbxassetid://6355250074"
+		lib:Notification("ReadMe!", "Please, equip  'Bayonet|Splattered'.", "[OKAY]")
+elseif knifes == "Autotronic" then
+	game.ReplicatedStorage.Weapons.Bayonet.Model.Handle.MeshId = "rbxassetid://6473522916"
+	game.ReplicatedStorage.Viewmodels["v_Bayonet"].Handle.MeshId = "rbxassetid://6473522916"
+	game.Players.LocalPlayer.PlayerGui.Client.Images["Bayonet"]["Splattered"].Value = "rbxassetid://6474550478"
+	game.ReplicatedStorage.Skins["Bayonet"]["Splattered"].WorldModel.Main.Value = "rbxassetid://6355276247"
+	game.ReplicatedStorage.Skins["Bayonet"]["Splattered"].Handle.Value = "rbxassetid://6355276247"
+		lib:Notification("ReadMe!", "Please, equip  'Bayonet|Splattered'.", "[OKAY]")
+elseif knifes == "Freehand" then
+	game.ReplicatedStorage.Weapons.Bayonet.Model.Handle.MeshId = "rbxassetid://6473522916"
+	game.ReplicatedStorage.Viewmodels["v_Bayonet"].Handle.MeshId = "rbxassetid://6473522916"
+	game.Players.LocalPlayer.PlayerGui.Client.Images["Bayonet"]["Splattered"].Value = "rbxassetid://6474550478"
+	game.ReplicatedStorage.Skins["Bayonet"]["Splattered"].WorldModel.Main.Value = "rbxassetid://6355248389"
+	game.ReplicatedStorage.Skins["Bayonet"]["Splattered"].Handle.Value = "rbxassetid://6355248389"
+		lib:Notification("ReadMe!", "Please, equip  'Bayonet|Splattered'.", "[OKAY]")
+elseif knifes == "Lore" then
+	game.ReplicatedStorage.Weapons.Bayonet.Model.Handle.MeshId = "rbxassetid://6473522916"
+	game.ReplicatedStorage.Viewmodels["v_Bayonet"].Handle.MeshId = "rbxassetid://6473522916"
+	game.Players.LocalPlayer.PlayerGui.Client.Images["Bayonet"]["Splattered"].Value = "rbxassetid://6474550478"
+	game.ReplicatedStorage.Skins["Bayonet"]["Splattered"].WorldModel.Main.Value = "rbxassetid://6355247035"
+	game.ReplicatedStorage.Skins["Bayonet"]["Splattered"].Handle.Value = "rbxassetid://6355247035"
+		lib:Notification("ReadMe!", "Please, equip  'Bayonet|Splattered'.", "[OKAY]")
+elseif knifes == "Vanilla" then
+	game.ReplicatedStorage.Weapons.Bayonet.Model.Handle.MeshId = "rbxassetid://6473522916"
+	game.ReplicatedStorage.Viewmodels["v_Bayonet"].Handle.MeshId = "rbxassetid://6473522916"
+	game.Players.LocalPlayer.PlayerGui.Client.Images["Bayonet"]["Splattered"].Value = "rbxassetid://6474550478"
+	game.ReplicatedStorage.Skins["Bayonet"]["Splattered"].WorldModel.Main.Value = "rbxassetid://6355243957"
+	game.ReplicatedStorage.Skins["Bayonet"]["Splattered"].Handle.Value = "rbxassetid://6355243957"
+		lib:Notification("ReadMe!", "Please, equip  'Bayonet|Splattered'.", "[OKAY]")
+elseif knifes == "Gamma Doppler Phase 4" then
+	game.ReplicatedStorage.Weapons.Bayonet.Model.Handle.MeshId = "rbxassetid://6473522916"
+	game.ReplicatedStorage.Viewmodels["v_Bayonet"].Handle.MeshId = "rbxassetid://6473522916"
+	game.Players.LocalPlayer.PlayerGui.Client.Images["Bayonet"]["Splattered"].Value = "rbxassetid://6474550478"
+	game.ReplicatedStorage.Skins["Bayonet"]["Splattered"].WorldModel.Main.Value = "rbxassetid://6355242063"
+	game.ReplicatedStorage.Skins["Bayonet"]["Splattered"].Handle.Value = "rbxassetid://6355242063"
+		lib:Notification("ReadMe!", "Please, equip  'Bayonet|Splattered'.", "[OKAY]")
+elseif knifes == "Gamma Doppler Phase 2" then
+	game.ReplicatedStorage.Weapons.Bayonet.Model.Handle.MeshId = "rbxassetid://6473522916"
+	game.ReplicatedStorage.Viewmodels["v_Bayonet"].Handle.MeshId = "rbxassetid://6473522916"
+	game.Players.LocalPlayer.PlayerGui.Client.Images["Bayonet"]["Splattered"].Value = "rbxassetid://6474550478"
+	game.ReplicatedStorage.Skins["Bayonet"]["Splattered"].WorldModel.Main.Value = "rbxassetid://6355241650"
+	game.ReplicatedStorage.Skins["Bayonet"]["Splattered"].Handle.Value = "rbxassetid://6355241650"
+		lib:Notification("ReadMe!", "Please, equip  'Bayonet|Splattered'.", "[OKAY]")
+elseif knifes == "Fade" then
+	game.ReplicatedStorage.Weapons.Bayonet.Model.Handle.MeshId = "rbxassetid://6473522916"
+	game.ReplicatedStorage.Viewmodels["v_Bayonet"].Handle.MeshId = "rbxassetid://6473522916"
+	game.Players.LocalPlayer.PlayerGui.Client.Images["Bayonet"]["Splattered"].Value = "rbxassetid://6474550478"
+	game.ReplicatedStorage.Skins["Bayonet"]["Splattered"].WorldModel.Main.Value = "rbxassetid://6355237475"
+	game.ReplicatedStorage.Skins["Bayonet"]["Splattered"].Handle.Value = "rbxassetid://6355237475"
+		lib:Notification("ReadMe!", "Please, equip  'Bayonet|Splattered'.", "[OKAY]")
+elseif knifes == "Doppler Sapphire" then
+	game.ReplicatedStorage.Weapons.Bayonet.Model.Handle.MeshId = "rbxassetid://6473522916"
+	game.ReplicatedStorage.Viewmodels["v_Bayonet"].Handle.MeshId = "rbxassetid://6473522916"
+	game.Players.LocalPlayer.PlayerGui.Client.Images["Bayonet"]["Splattered"].Value = "rbxassetid://6474550478"
+	game.ReplicatedStorage.Skins["Bayonet"]["Splattered"].WorldModel.Main.Value = "rbxassetid://6355236981"
+	game.ReplicatedStorage.Skins["Bayonet"]["Splattered"].Handle.Value = "rbxassetid://6355236981"
+		lib:Notification("ReadMe!", "Please, equip  'Bayonet|Splattered'.", "[OKAY]")
+elseif knifes == "Doppler Ruby" then
+	game.ReplicatedStorage.Weapons.Bayonet.Model.Handle.MeshId = "rbxassetid://6473522916"
+	game.ReplicatedStorage.Viewmodels["v_Bayonet"].Handle.MeshId = "rbxassetid://6473522916"
+	game.Players.LocalPlayer.PlayerGui.Client.Images["Bayonet"]["Splattered"].Value = "rbxassetid://6474550478"
+	game.ReplicatedStorage.Skins["Bayonet"]["Splattered"].WorldModel.Main.Value = "rbxassetid://6355236588"
+	game.ReplicatedStorage.Skins["Bayonet"]["Splattered"].Handle.Value = "rbxassetid://6355236588"
+		lib:Notification("ReadMe!", "Please, equip  'Bayonet|Splattered'.", "[OKAY]")
+elseif knifes == "Waves Phase 3" then
+	game.ReplicatedStorage.Weapons.Bayonet.Model.Handle.MeshId = "rbxassetid://6473522916"
+	game.ReplicatedStorage.Viewmodels["v_Bayonet"].Handle.MeshId = "rbxassetid://6473522916"
+	game.Players.LocalPlayer.PlayerGui.Client.Images["Bayonet"]["Splattered"].Value = "rbxassetid://6474550478"
+	game.ReplicatedStorage.Skins["Bayonet"]["Splattered"].WorldModel.Main.Value = "rbxassetid://6355236224"
+	game.ReplicatedStorage.Skins["Bayonet"]["Splattered"].Handle.Value = "rbxassetid://6355236224"
+		lib:Notification("ReadMe!", "Please, equip  'Bayonet|Splattered'.", "[OKAY]")
+elseif knifes == "Crimson Web" then
+	game.ReplicatedStorage.Weapons.Bayonet.Model.Handle.MeshId = "rbxassetid://6473522916"
+	game.ReplicatedStorage.Viewmodels["v_Bayonet"].Handle.MeshId = "rbxassetid://6473522916"
+	game.Players.LocalPlayer.PlayerGui.Client.Images["Bayonet"]["Splattered"].Value = "rbxassetid://6474550478"
+	game.ReplicatedStorage.Skins["Bayonet"]["Splattered"].WorldModel.Main.Value = "rbxassetid://6355235916"
+	game.ReplicatedStorage.Skins["Bayonet"]["Splattered"].Handle.Value = "rbxassetid://6355235916"
+		lib:Notification("ReadMe!", "Please, equip  'Bayonet|Splattered'.", "[OKAY]")
+elseif knifes == "Lighting Strike" then
+	game.ReplicatedStorage.Weapons.Bayonet.Model.Handle.MeshId = "rbxassetid://6473522916"
+	game.ReplicatedStorage.Viewmodels["v_Bayonet"].Handle.MeshId = "rbxassetid://6473522916"
+	game.Players.LocalPlayer.PlayerGui.Client.Images["Bayonet"]["Splattered"].Value = "rbxassetid://6474550478"
+	game.ReplicatedStorage.Skins["Bayonet"]["Splattered"].WorldModel.Main.Value = "rbxassetid://6355234343"
+	game.ReplicatedStorage.Skins["Bayonet"]["Splattered"].Handle.Value = "rbxassetid://6355234343"
+		lib:Notification("ReadMe!", "Please, equip  'Bayonet|Splattered'.", "[OKAY]")
+	end
+end)
+
+customs_tab:Toggle("Crowbar", false, function(val)
+	if val == true then
+		game.ReplicatedStorage.Viewmodels["v_Bayonet"].Name = "v_BayonetDef"
+		wait(1)
+		local Model5538 = Instance.new("Model", game.ReplicatedStorage.Viewmodels)
+		game:GetObjects('rbxassetid://6507371928')[1].Parent = Model5538
+		wait(1)
+		Model = game.ReplicatedStorage.Viewmodels.Model
+		for _, Child in pairs(Model:GetChildren()) do
+			Child.Parent = Model.Parent
+		end
+		Model:Destroy()
+	else
+		game.ReplicatedStorage.Viewmodels["v_Bayonet"].Name = "v_BayonetOld"
+		wait(1)
+		local Model5537 = Instance.new("Model", game.ReplicatedStorage.Viewmodels)
+		game:GetObjects('rbxassetid://6507716525')[1].Parent = Model5537
+		wait(1)
+		Model = game.ReplicatedStorage.Viewmodels.Model
+		for _, Child in pairs(Model:GetChildren()) do
+			Child.Parent = Model.Parent
+		end
+		Model:Destroy()
+	end
+end)
+
+--Halloween C4
+customs_tab:Toggle("Halloween C4", false, function(val)
+	if val == true then
+		game.ReplicatedStorage.Viewmodels.v_C4.Name = "v_C4Def"
+		wait(1)
+		game.ReplicatedStorage.Viewmodels.v_C4Halloween.Name = "v_C4"
+	else
+		game.ReplicatedStorage.Viewmodels.v_C4.Name = "v_C4Halloween"
+		wait(1)
+		game.ReplicatedStorage.Viewmodels.v_C4Def.Name = "v_C4"
+	end
+end)
+
+--Old Butterfly
+customs_tab:Toggle("Old Butterfly Knife (Beta)", false, function(val)
+	if val == true then
+		game.ReplicatedStorage.Viewmodels["v_Butterfly Knife"].Name = "v_Butterfly KnifeDef"
+		wait(1)
+		local Model11 = Instance.new("Model", game.ReplicatedStorage.Viewmodels)
+		game:GetObjects('rbxassetid://6422093888')[1].Parent = Model11
+		wait(1)
+		Model = game.ReplicatedStorage.Viewmodels.Model
+		for _, Child in pairs(Model:GetChildren()) do
+			Child.Parent = Model.Parent
+		end
+		Model:Destroy()
+		game.ReplicatedStorage.Skins["Butterfly Knife"].Stock.WorldModel.Main.Value = "rbxassetid://436609123"
+		game.ReplicatedStorage.Skins["Butterfly Knife"].Stock.Butterfly_Blade.Value = "rbxassetid://436609123"
+		game.ReplicatedStorage.Skins["Butterfly Knife"].Stock.Butterfly_LHandle.Value = "rbxassetid://436609123"
+		game.ReplicatedStorage.Skins["Butterfly Knife"].Stock.Butterfly_RHandle.Value = "rbxassetid://436609123"
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/NineR-9R/BloxFun/main/c-skins-inv.lua", true))()
+	else
+		game.ReplicatedStorage.Viewmodels["v_Butterfly Knife"].Name = "v_Butterfly KnifeOld"
+		wait(1)
+		local Model12 = Instance.new("Model", game.ReplicatedStorage.Viewmodels)
+		game:GetObjects('rbxassetid://6426186091')[1].Parent = Model12
+		wait(1)
+		Model = game.ReplicatedStorage.Viewmodels.Model
+		for _, Child in pairs(Model:GetChildren()) do
+			Child.Parent = Model.Parent
+		end
+		Model:Destroy()
+		game.ReplicatedStorage.Skins["Butterfly Knife"].Stock.WorldModel.Main.Value = "rbxassetid://3023647348"
+		game.ReplicatedStorage.Skins["Butterfly Knife"].Stock.Butterfly_Blade.Value = "rbxassetid://3023647348"
+		game.ReplicatedStorage.Skins["Butterfly Knife"].Stock.Butterfly_LHandle.Value = "rbxassetid://3023647348"
+		game.ReplicatedStorage.Skins["Butterfly Knife"].Stock.Butterfly_RHandle.Value = "rbxassetid://3023647348"
+		lib:Notification("ReadMe!", "Please, equip any 'Butterfly Knife'.", "[OKAY]")
+	end
+end)
+
+--CSGO Scout
+customs_tab:Toggle("CSGO Scout (Beta)", false, function(val)
+	if val == true then
+		game.ReplicatedStorage.Viewmodels["v_Scout"].Name = "v_Scout_Def"
+		wait(1)
+		local Model5489 = Instance.new("Model", game.ReplicatedStorage.Viewmodels)
+		game:GetObjects('rbxassetid://6494966601')[1].Parent = Model5489
+		wait(1)
+		Model = game.ReplicatedStorage.Viewmodels.Model
+		for _, Child in pairs(Model:GetChildren()) do
+			Child.Parent = Model.Parent
+		end
+		Model:Destroy()
+	else
+		game.ReplicatedStorage.Viewmodels["v_Scout"].Name = "v_Scout_Old"
+		wait(1)
+		local Model5845 = Instance.new("Model", game.ReplicatedStorage.Viewmodels)
+		game:GetObjects('rbxassetid://6494977050')[1].Parent = Model5845
+		wait(1)
+		Model = game.ReplicatedStorage.Viewmodels.Model
+		for _, Child in pairs(Model:GetChildren()) do
+			Child.Parent = Model.Parent
+		end
+		Model:Destroy()
+		wait(1)
+		game.ReplicatedStorage.Viewmodels["v_Scout"].HumanoidRootPart.Transparency = 1
+	end
+end)
+
+--Old Sickle Knife
+customs_tab:Toggle("Old Sickle Knife", false, function(val)
+	if val == true then
+		game.ReplicatedStorage.Viewmodels.v_Sickle.Name = "v_SickleDef"
+		wait(1)
+		local Model6386 = Instance.new("Model", game.ReplicatedStorage.Viewmodels)
+		game:GetObjects('rbxassetid://6422082989')[1].Parent = Model6386
+		wait(1)
+		Model = game.ReplicatedStorage.Viewmodels.Model
+		for _, Child in pairs(Model:GetChildren()) do
+			Child.Parent = Model.Parent
+		end
+		Model:Destroy()
+		game.ReplicatedStorage.Skins.Sickle.Splattered.WorldModel.Handle2.Value = "rbxassetid://6422796232"
+		game.ReplicatedStorage.Skins.Sickle.Splattered.Handle.Value = "rbxassetid://6422796232"
+		game.ReplicatedStorage.Skins.Sickle.Mummy.WorldModel.Handle2.Value = "rbxassetid://6422797170"
+		game.ReplicatedStorage.Skins.Sickle.Mummy.Handle.Value = "rbxassetid://6422797170"
+	else
+		game.ReplicatedStorage.Viewmodels.v_Sickle.Name = "v_SickleOld"
+		wait(1)
+		local Model3990 = Instance.new("Model", game.ReplicatedStorage.Viewmodels)
+		game:GetObjects('rbxassetid://6422243553')[1].Parent = Model3990
+		wait(1)
+		Model = game.ReplicatedStorage.Viewmodels.Model
+		for _, Child in pairs(Model:GetChildren()) do
+			Child.Parent = Model.Parent
+		end
+		Model:Destroy()
+		game.ReplicatedStorage.Skins.Sickle.Splattered.WorldModel.Handle2.Value = "rbxassetid://4197577332"
+		game.ReplicatedStorage.Skins.Sickle.Splattered.Handle.Value = "rbxassetid://4197577332"
+		game.ReplicatedStorage.Skins.Sickle.Mummy.WorldModel.Handle2.Value = "rbxassetid://4197576936"
+		game.ReplicatedStorage.Skins.Sickle.Mummy.Handle.Value = "rbxassetid://4197576936"
+		lib:Notification("ReadMe!", "Please, equip any 'Sickle Knife'.", "[OKAY]")
+	end
+end)
+
+customs_tab:Seperator()
+
+customs_tab:Dropdown("Pins",{"Valve But ROLVe","Roblox Monkey","Purple Moneky Head","LMAO Emoji","Banana","Bluay Mario","Arsenal Panda Emoji","Arsenal Panda Anime Art","Arsenal Monkey","Arsenal Monkey Emoji","Cowboy Emoji","Flushed Emoji","Drip Megumin","BloxFun","BloxFun Skin Committee","Weeb/Gymgoer's pin","Heaven's Gate Team","Nighthawk Team Draft League Champions","Outlaws Team S2 EU Champions","Endline Team S1 SA Champions","DropX Team S4 Champions","RSL Draft League Logo","Spring Invitational","Draft Qualifier 1","Draft Qualifier 2","Draft Qualifier 3","Brazil Player Flag","CBCL S1 Champion","CBCL S2 Champion","The Legion of Poop","Poop Matchmaking","ROLVe Developer"}, function(pinspicker)
+	if pinspicker == "Valve But ROLVe" then
+		game.Players.LocalPlayer.PlayerGui.Menew.MainFrame.PlayerCard.pinHolder.ImageButton.Image = "rbxassetid://6417867420"
+		game.Players.LocalPlayer.PlayerGui.Menew.MainFrame.PlayerCard.Photo.EquippedPin.Image = "rbxassetid://6417867420"
+		game.Players.LocalPlayer.EquippedPin.Value = "http://www.roblox.com/asset/?id=6417867420"
+	elseif pinspicker == "Roblox Monkey" then
+		game.Players.LocalPlayer.PlayerGui.Menew.MainFrame.PlayerCard.pinHolder.ImageButton.Image = "rbxassetid://6417867043"
+		game.Players.LocalPlayer.PlayerGui.Menew.MainFrame.PlayerCard.Photo.EquippedPin.Image = "rbxassetid://6417867043"
+		game.Players.LocalPlayer.EquippedPin.Value = "http://www.roblox.com/asset/?id=6417867043"
+	elseif pinspicker == "Purple Moneky Head" then
+		game.Players.LocalPlayer.PlayerGui.Menew.MainFrame.PlayerCard.pinHolder.ImageButton.Image = "rbxassetid://6417866703"
+		game.Players.LocalPlayer.PlayerGui.Menew.MainFrame.PlayerCard.Photo.EquippedPin.Image = "rbxassetid://6417866703"
+		game.Players.LocalPlayer.EquippedPin.Value = "http://www.roblox.com/asset/?id=6417866703"
+	elseif pinspicker == "LMAO Emoji" then
+		game.Players.LocalPlayer.PlayerGui.Menew.MainFrame.PlayerCard.pinHolder.ImageButton.Image = "rbxassetid://6417866153"
+		game.Players.LocalPlayer.PlayerGui.Menew.MainFrame.PlayerCard.Photo.EquippedPin.Image = "rbxassetid://6417866153"
+		game.Players.LocalPlayer.EquippedPin.Value = "http://www.roblox.com/asset/?id=6417866153"
+	elseif pinspicker == "Banana" then
+		game.Players.LocalPlayer.PlayerGui.Menew.MainFrame.PlayerCard.pinHolder.ImageButton.Image = "rbxassetid://6417864839"
+		game.Players.LocalPlayer.PlayerGui.Menew.MainFrame.PlayerCard.Photo.EquippedPin.Image = "rbxassetid://6417864839"
+		game.Players.LocalPlayer.EquippedPin.Value = "http://www.roblox.com/asset/?id=6417864839"
+	elseif pinspicker == "Bluay Mario" then
+		game.Players.LocalPlayer.PlayerGui.Menew.MainFrame.PlayerCard.pinHolder.ImageButton.Image = "rbxassetid://6423553315"
+		game.Players.LocalPlayer.PlayerGui.Menew.MainFrame.PlayerCard.Photo.EquippedPin.Image = "rbxassetid://6423553315"
+		game.Players.LocalPlayer.EquippedPin.Value = "http://www.roblox.com/asset/?id=6423553315"
+	elseif pinspicker == "Arsenal Panda Emoji" then
+		game.Players.LocalPlayer.PlayerGui.Menew.MainFrame.PlayerCard.pinHolder.ImageButton.Image = "rbxassetid://6417859960"
+		game.Players.LocalPlayer.PlayerGui.Menew.MainFrame.PlayerCard.Photo.EquippedPin.Image = "rbxassetid://6417859960"
+		game.Players.LocalPlayer.EquippedPin.Value = "http://www.roblox.com/asset/?id=6417859960"
+	elseif pinspicker == "Arsenal Panda Anime Art" then
+		game.Players.LocalPlayer.PlayerGui.Menew.MainFrame.PlayerCard.pinHolder.ImageButton.Image = "rbxassetid://6417859142"
+		game.Players.LocalPlayer.PlayerGui.Menew.MainFrame.PlayerCard.Photo.EquippedPin.Image = "rbxassetid://6417859142"
+		game.Players.LocalPlayer.EquippedPin.Value = "http://www.roblox.com/asset/?id=6417859142"
+	elseif pinspicker == "Arsenal Monkey" then
+		game.Players.LocalPlayer.PlayerGui.Menew.MainFrame.PlayerCard.pinHolder.ImageButton.Image = "rbxassetid://6417858325"
+		game.Players.LocalPlayer.PlayerGui.Menew.MainFrame.PlayerCard.Photo.EquippedPin.Image = "rbxassetid://6417858325"
+		game.Players.LocalPlayer.EquippedPin.Value = "http://www.roblox.com/asset/?id=6417858325"
+	elseif pinspicker == "Arsenal Monkey Emoji" then
+		game.Players.LocalPlayer.PlayerGui.Menew.MainFrame.PlayerCard.pinHolder.ImageButton.Image = "rbxassetid://6417857849"
+		game.Players.LocalPlayer.PlayerGui.Menew.MainFrame.PlayerCard.Photo.EquippedPin.Image = "rbxassetid://6417857849"
+		game.Players.LocalPlayer.EquippedPin.Value = "http://www.roblox.com/asset/?id=6417857849"
+	elseif pinspicker == "Cowboy Emoji" then
+		game.Players.LocalPlayer.PlayerGui.Menew.MainFrame.PlayerCard.pinHolder.ImageButton.Image = "rbxassetid://6423553795"
+		game.Players.LocalPlayer.PlayerGui.Menew.MainFrame.PlayerCard.Photo.EquippedPin.Image = "rbxassetid://6423553795"
+		game.Players.LocalPlayer.EquippedPin.Value = "http://www.roblox.com/asset/?id=6423553795"
+	elseif pinspicker == "Flushed Emoji" then
+		game.Players.LocalPlayer.PlayerGui.Menew.MainFrame.PlayerCard.pinHolder.ImageButton.Image = "rbxassetid://6500193992"
+		game.Players.LocalPlayer.PlayerGui.Menew.MainFrame.PlayerCard.Photo.EquippedPin.Image = "rbxassetid://6500193992"
+		game.Players.LocalPlayer.EquippedPin.Value = "http://www.roblox.com/asset/?id=6500193992"
+	elseif pinspicker == "Drip Megumin" then
+		game.Players.LocalPlayer.PlayerGui.Menew.MainFrame.PlayerCard.pinHolder.ImageButton.Image = "rbxassetid://6452884914"
+		game.Players.LocalPlayer.PlayerGui.Menew.MainFrame.PlayerCard.Photo.EquippedPin.Image = "rbxassetid://6452884914"
+		game.Players.LocalPlayer.EquippedPin.Value = "http://www.roblox.com/asset/?id=6452884914"
+	elseif pinspicker == "BloxFun" then
+		game.Players.LocalPlayer.PlayerGui.Menew.MainFrame.PlayerCard.pinHolder.ImageButton.Image = "rbxassetid://6474550478"
+		game.Players.LocalPlayer.PlayerGui.Menew.MainFrame.PlayerCard.Photo.EquippedPin.Image = "rbxassetid://6474550478"
+		game.Players.LocalPlayer.EquippedPin.Value = "http://www.roblox.com/asset/?id=6474550478"
+	elseif pinspicker == "BloxFun Skin Committee" then
+		game.Players.LocalPlayer.PlayerGui.Menew.MainFrame.PlayerCard.pinHolder.ImageButton.Image = "rbxassetid://6474551461"
+		game.Players.LocalPlayer.PlayerGui.Menew.MainFrame.PlayerCard.Photo.EquippedPin.Image = "rbxassetid://6474551461"
+		game.Players.LocalPlayer.EquippedPin.Value = "http://www.roblox.com/asset/?id=6474551461"
+	elseif pinspicker == "Weeb/Gymgoer's pin" then
+		game.Players.LocalPlayer.PlayerGui.Menew.MainFrame.PlayerCard.pinHolder.ImageButton.Image = "rbxassetid://6500087783"
+		game.Players.LocalPlayer.PlayerGui.Menew.MainFrame.PlayerCard.Photo.EquippedPin.Image = "rbxassetid://6500087783"
+		game.Players.LocalPlayer.EquippedPin.Value = "http://www.roblox.com/asset/?id=6500087783"
+	elseif pinspicker == "Heaven's Gate Team" then
+		game.Players.LocalPlayer.PlayerGui.Menew.MainFrame.PlayerCard.pinHolder.ImageButton.Image = "rbxassetid:/6500036008"
+		game.Players.LocalPlayer.PlayerGui.Menew.MainFrame.PlayerCard.Photo.EquippedPin.Image = "rbxassetid://6500036008"
+		game.Players.LocalPlayer.EquippedPin.Value = "http://www.roblox.com/asset/?id=6500036008"
+	elseif pinspicker == "Nighthawk Team Draft League Champions" then
+		game.Players.LocalPlayer.PlayerGui.Menew.MainFrame.PlayerCard.pinHolder.ImageButton.Image = "rbxassetid://6500037933"
+		game.Players.LocalPlayer.PlayerGui.Menew.MainFrame.PlayerCard.Photo.EquippedPin.Image = "rbxassetid://6500037933"
+		game.Players.LocalPlayer.EquippedPin.Value = "http://www.roblox.com/asset/?id=6500037933"
+	elseif pinspicker == "Outlaws Team S2 EU Champions" then
+		game.Players.LocalPlayer.PlayerGui.Menew.MainFrame.PlayerCard.pinHolder.ImageButton.Image = "rbxassetid://6500069019"
+		game.Players.LocalPlayer.PlayerGui.Menew.MainFrame.PlayerCard.Photo.EquippedPin.Image = "rbxassetid://6500069019"
+		game.Players.LocalPlayer.EquippedPin.Value = "http://www.roblox.com/asset/?id=6500069019"
+	elseif pinspicker == "Endline Team S1 SA Champions" then
+		game.Players.LocalPlayer.PlayerGui.Menew.MainFrame.PlayerCard.pinHolder.ImageButton.Image = "rbxassetid://6500072428"
+		game.Players.LocalPlayer.PlayerGui.Menew.MainFrame.PlayerCard.Photo.EquippedPin.Image = "rbxassetid://6500072428"
+		game.Players.LocalPlayer.EquippedPin.Value = "http://www.roblox.com/asset/?id=6500072428"
+	elseif pinspicker == "DropX Team S4 Champions" then
+		game.Players.LocalPlayer.PlayerGui.Menew.MainFrame.PlayerCard.pinHolder.ImageButton.Image = "rbxassetid://6500080612"
+		game.Players.LocalPlayer.PlayerGui.Menew.MainFrame.PlayerCard.Photo.EquippedPin.Image = "rbxassetid://6500080612"
+		game.Players.LocalPlayer.EquippedPin.Value = "http://www.roblox.com/asset/?id=6500080612"
+	elseif pinspicker == "RSL Draft League Logo" then
+		game.Players.LocalPlayer.PlayerGui.Menew.MainFrame.PlayerCard.pinHolder.ImageButton.Image = "rbxassetid://6500040815"
+		game.Players.LocalPlayer.PlayerGui.Menew.MainFrame.PlayerCard.Photo.EquippedPin.Image = "rbxassetid://6500040815"
+		game.Players.LocalPlayer.EquippedPin.Value = "http://www.roblox.com/asset/?id=6500040815"
+	elseif pinspicker == "Spring Invitational" then
+		game.Players.LocalPlayer.PlayerGui.Menew.MainFrame.PlayerCard.pinHolder.ImageButton.Image = "rbxassetid://6500054970"
+		game.Players.LocalPlayer.PlayerGui.Menew.MainFrame.PlayerCard.Photo.EquippedPin.Image = "rbxassetid://6500054970"
+		game.Players.LocalPlayer.EquippedPin.Value = "http://www.roblox.com/asset/?id=6500054970"
+	elseif pinspicker == "Draft Qualifier 1" then
+		game.Players.LocalPlayer.PlayerGui.Menew.MainFrame.PlayerCard.pinHolder.ImageButton.Image = "rbxassetid://6500061224"
+		game.Players.LocalPlayer.PlayerGui.Menew.MainFrame.PlayerCard.Photo.EquippedPin.Image = "rbxassetid://6500061224"
+		game.Players.LocalPlayer.EquippedPin.Value = "http://www.roblox.com/asset/?id=6500061224"
+	elseif pinspicker == "Draft Qualifier 2" then
+		game.Players.LocalPlayer.PlayerGui.Menew.MainFrame.PlayerCard.pinHolder.ImageButton.Image = "rbxassetid://6500064070"
+		game.Players.LocalPlayer.PlayerGui.Menew.MainFrame.PlayerCard.Photo.EquippedPin.Image = "rbxassetid://6500064070"
+		game.Players.LocalPlayer.EquippedPin.Value = "http://www.roblox.com/asset/?id=6500064070"
+	elseif pinspicker == "Draft Qualifier 3" then
+		game.Players.LocalPlayer.PlayerGui.Menew.MainFrame.PlayerCard.pinHolder.ImageButton.Image = "rbxassetid://6500066077"
+		game.Players.LocalPlayer.PlayerGui.Menew.MainFrame.PlayerCard.Photo.EquippedPin.Image = "rbxassetid://6500066077"
+		game.Players.LocalPlayer.EquippedPin.Value = "http://www.roblox.com/asset/?id=6500066077"
+	elseif pinspicker == "Brazil Player Flag" then
+		game.Players.LocalPlayer.PlayerGui.Menew.MainFrame.PlayerCard.pinHolder.ImageButton.Image = "rbxassetid://6500079139"
+		game.Players.LocalPlayer.PlayerGui.Menew.MainFrame.PlayerCard.Photo.EquippedPin.Image = "rbxassetid://6500079139"
+		game.Players.LocalPlayer.EquippedPin.Value = "http://www.roblox.com/asset/?id=6500079139"
+	elseif pinspicker == "CBCL S1 Champion" then
+		game.Players.LocalPlayer.PlayerGui.Menew.MainFrame.PlayerCard.pinHolder.ImageButton.Image = "rbxassetid://6500081538"
+		game.Players.LocalPlayer.PlayerGui.Menew.MainFrame.PlayerCard.Photo.EquippedPin.Image = "rbxassetid://6500081538"
+		game.Players.LocalPlayer.EquippedPin.Value = "http://www.roblox.com/asset/?id=6500081538"
+	elseif pinspicker == "CBCL S2 Champion" then
+		game.Players.LocalPlayer.PlayerGui.Menew.MainFrame.PlayerCard.pinHolder.ImageButton.Image = "rbxassetid://6500082253"
+		game.Players.LocalPlayer.PlayerGui.Menew.MainFrame.PlayerCard.Photo.EquippedPin.Image = "rbxassetid://6500082253"
+		game.Players.LocalPlayer.EquippedPin.Value = "http://www.roblox.com/asset/?id=6500082253"
+	elseif pinspicker == "The Legion of Poop" then
+		game.Players.LocalPlayer.PlayerGui.Menew.MainFrame.PlayerCard.pinHolder.ImageButton.Image = "rbxassetid://6500194240"
+		game.Players.LocalPlayer.PlayerGui.Menew.MainFrame.PlayerCard.Photo.EquippedPin.Image = "rbxassetid://6500194240"
+		game.Players.LocalPlayer.EquippedPin.Value = "http://www.roblox.com/asset/?id=6500194240"
+	elseif pinspicker == "Poop Matchmaking" then
+		game.Players.LocalPlayer.PlayerGui.Menew.MainFrame.PlayerCard.pinHolder.ImageButton.Image = "rbxassetid://6500196395"
+		game.Players.LocalPlayer.PlayerGui.Menew.MainFrame.PlayerCard.Photo.EquippedPin.Image = "rbxassetid://6500196395"
+		game.Players.LocalPlayer.EquippedPin.Value = "http://www.roblox.com/asset/?id=6500196395"
+	elseif pinspicker == "ROLVe Developer" then
+		game.Players.LocalPlayer.PlayerGui.Menew.MainFrame.PlayerCard.pinHolder.ImageButton.Image = "rbxassetid://6500478886"
+		game.Players.LocalPlayer.PlayerGui.Menew.MainFrame.PlayerCard.Photo.EquippedPin.Image = "rbxassetid://6500478886"
+		game.Players.LocalPlayer.EquippedPin.Value = "http://www.roblox.com/asset/?id=6500478886"
+	end
+end)
+
+customs_tab:Button("Skin Unlocker", function()
+	game.ReplicatedStorage.Skins:Destroy()
+local Model1 = Instance.new("Model", game.ReplicatedStorage)
+game:GetObjects('rbxassetid://6896298086')[1].Parent = Model1
+Model = game.ReplicatedStorage.Model
+for _, Child in pairs(Model:GetChildren()) do
+    Child.Parent = Model.Parent
+end
+Model:Destroy()
+wait()
+game.ReplicatedStorage.Gloves:Destroy()
+local Model2 = Instance.new("Model", game.ReplicatedStorage)
+game:GetObjects('rbxassetid://6896184250')[1].Parent = Model2
+Model = game.ReplicatedStorage.Model
+for _, Child in pairs(Model:GetChildren()) do
+    Child.Parent = Model.Parent
+end
+Model:Destroy()
+wait()
+game.Players.LocalPlayer.PlayerGui.Client.Images:Destroy()
+local Model3 = Instance.new("Model", game.Players.LocalPlayer.PlayerGui.Client)
+game:GetObjects('rbxassetid://6896285523')[1].Parent = Model3
+Model = game.Players.LocalPlayer.PlayerGui.Client.Model
+for _, Child in pairs(Model:GetChildren()) do
+    Child.Parent = Model.Parent
+end
+Model:Destroy()
+wait()
+local Model4 = Instance.new("Model", game.Players.LocalPlayer.PlayerGui.Client.Rarities)
+game:GetObjects('rbxassetid://6701915660')[1].Parent = Model4
+Model = game.Players.LocalPlayer.PlayerGui.Client.Rarities.Model
+for _, Child in pairs(Model:GetChildren()) do
+    Child.Parent = Model.Parent
+end
+Model:Destroy()
+wait()
+local LocalPlayer = game:GetService("Players").LocalPlayer
+local Client = getsenv(game.Players.LocalPlayer.PlayerGui.Client)
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+local allSkins = {
+   {'Sports Glove_Twitch'},
+   {'Sports Glove_Twitch 2'},
+   {'Sports Glove_Twitch 3'},
+   {'Sports Glove_Orange Juice'},
+   {'Sports Glove_Green Juice'},
+   {'Sports Glove_Red Juice'},
+   {'Sports Glove_Red Juice 2'},
+   {'Handwraps_Turquoise Hex'},
+   {'Handwraps_Dark Blue Hex'},
+   {'Handwraps_Dark Red Hex'},
+   {'Handwraps_Red Hex'},
+   {'Handwraps_Cyan Hex'},
+   {'Handwraps_Hot Pink Hex'},
+   {'Handwraps_White Hex'},
+   {'Handwraps_Pink Hex'},
+   {'Handwraps_Institutional White Hex'},
+   {'AK47_Aquamarine Revenge'},
+   {'AK47_Legion of Anubis'},
+   {'AK47_Neon Rider'},
+   {'AK47_Prototype'},
+   {'AK47_Weeb'},
+   {'AK47_The Empress'},
+   {'AK47_VAV Old'},
+   {'AK47_Colors'},
+   {'AK47_Mummy'},
+   {'AK47_BloxFun'},
+   {'AK47_Wild Lotus'},
+   {'AK47_Memories'},
+   {'AK47_Dragon'},
+   {'AK47_Weeb 2'},
+   {'AK47_Senpai'},
+   {'AWP_Bloodborne Old'},
+   {'AWP_Christmas'},
+   {'AWP_Cosmos'},
+   {'AWP_Fairy'},
+   {'AWP_BloxFun Committee'},
+   {'AWP_Dragon Lore'},
+   {'AWP_Grepkin Old'},
+   {'AWP_JTF2 Old'},
+   {'AWP_Mecha Dragon'},
+   {'AWP_Megumin'},
+   {'AWP_Nights'},
+   {'AWP_Oni Taiji'},
+   {'AWP_Sea Creature'},
+   {'AWP_The Prince'},
+   {'AWP_Weeb Old'},
+   {'AWP_G2'},
+   {'AWP_Ice Obama'},
+   {'AWP_Cyborg Nerf'},
+   {'AWP_Gungnir'},
+   {'AWP_Megumin Remake'},
+   {'Bayonet_Sea Creature'},
+   {'Bayonet_BloxFun'},
+   {'Bayonet_Troll'},
+   {'Bayonet_Nights'},
+   {'Butterfly Knife_Weeb'},
+   {'Karambit_Outrunner'},
+   {'Karambit_Weeb'},
+   {'Karambit_Sara'},
+   {'Falchion Knife_Sara'},
+   {'Falchion Knife_Nights'},
+   {'DesertEagle_City'},
+   {'DesertEagle_Code Red'},
+   {'DesertEagle_Printstream'},
+   {'DesertEagle_Team Nikita'},
+   {'Glock_Bullet Queen'},
+   {'Glock_Mummy'},
+   {'M4A1_Hyper Beast'},
+   {'M4A1_Player Two'},
+   {'M4A4_Dragon King'},
+   {'M4A4_Howl'},
+   {'M4A4_Dragon'},
+   {'USP_Neo-Noir'},
+   {'USP_Cortex'},
+   {'P2000_Stock'},
+   {'P2000_Camo Dipped'},
+   {'P2000_Candycorn'},
+   {'P2000_Golden Age'},
+   {'P2000_Ruby'},
+   {'P2000_Apathy'},
+   {'P2000_Dark Beast'},
+   {'P2000_Lunar'},
+   {'P2000_Pinkie'},
+   {'P2000_Comet'},
+   {'P2000_Silence'},
+   {'USP_Stock'},
+   {'USP_Crimson'},
+   {'USP_Racing'},
+   {'USP_Frostbite'},
+   {'USP_Dizzy'},
+   {'USP_Unseen'},
+   {'USP_Jade Dream'},
+   {'USP_Skull'},
+   {'USP_Paradise'},
+   {'USP_Holiday'},
+   {'USP_Kraken'},
+   {'USP_Nighttown'},
+   {'USP_Worlds Away'},
+   {'USP_Yellowbelly'},
+   {'Glock_Stock'},
+   {'Glock_White Sauce'},
+   {'Glock_Gravestomper'},
+   {'Glock_Money Maker'},
+   {'Glock_Rush'},
+   {'Glock_Tarnish'},
+   {'Glock_Spacedust'},
+   {'Glock_Wetland'},
+   {'Glock_Desert Camo'},
+   {'Glock_Midnight Tiger'},
+   {'Glock_Day Dreamer'},
+   {'Glock_Angler'},
+   {'Glock_Anubis'},
+   {'Glock_Underwater'},
+   {'Glock_Biotrip'},
+   {'Glock_RSL'},
+   {'Glock_Scapter'},
+   {'DualBerettas_Stock'},
+   {'DualBerettas_Carbonized'},
+   {'DualBerettas_Hexline'},
+   {'DualBerettas_Old Fashioned'},
+   {'DualBerettas_Neon web'},
+   {'DualBerettas_Xmas'},
+   {'DualBerettas_Floral'},
+   {'DualBerettas_Dusty Manor'},
+   {'P250_Stock'},
+   {'P250_Solstice'},
+   {'P250_Goldish'},
+   {'P250_Frosted'},
+   {'P250_Green Web'},
+   {'P250_Shark'},
+   {'P250_Amber'},
+   {'P250_Bomber'},
+   {'P250_Equinox'},
+   {'P250_TC250'},
+   {'FiveSeven_Stock'},
+   {'FiveSeven_Sub Zero'},
+   {'FiveSeven_Autumn Fade'},
+   {'FiveSeven_Gifted'},
+   {'FiveSeven_Midnight Ride'},
+   {'FiveSeven_Stigma'},
+   {'FiveSeven_Fluid'},
+   {'FiveSeven_Mr. Anatomy'},
+   {'FiveSeven_Summer'},
+   {'FiveSeven_Danjo'},
+   {'Tec9_Stock'},
+   {'Tec9_Phol'},
+   {'Tec9_Stocking Stuffer'},
+   {'Tec9_Charger'},
+   {'Tec9_Ironline'},
+   {'Tec9_Samurai'},
+   {'Tec9_Skintech'},
+   {'Tec9_Gift Wrapped'},
+   {'Tec9_Performer'},
+   {'CZ_Stock'},
+   {'CZ_Orange Web'},
+   {'CZ_Festive'},
+   {'CZ_Hallow'},
+   {'CZ_Holidays'},
+   {'CZ_Spectre'},
+   {'CZ_Designed'},
+   {'CZ_Lightning'},
+   {'DesertEagle_Stock'},
+   {'DesertEagle_Pumpkin Buster'},
+   {'DesertEagle_Cool Blue'},
+   {'DesertEagle_Glittery'},
+   {'DesertEagle_ROLVe'},
+   {'DesertEagle_Cold Truth'},
+   {'DesertEagle_Heat'},
+   {'DesertEagle_Honor-bound'},
+   {'DesertEagle_Xmas'},
+   {'DesertEagle_Grim'},
+   {'DesertEagle_Survivor'},
+   {'DesertEagle_Independence'},
+   {'DesertEagle_Racer'},
+   {'DesertEagle_Krystallos'},
+   {'DesertEagle_DropX'},
+   {'DesertEagle_TC'},
+   {'DesertEagle_Weeb'},
+   {'DesertEagle_Skin Committee'},
+   {'DesertEagle_Scapter'},
+   {'R8_Stock'},
+   {'R8_Spades'},
+   {'R8_Hunter'},
+   {'R8_TG'},
+   {'R8_Violet'},
+   {'R8_Exquisite'},
+   {'MP9_Stock'},
+   {'MP9_Blueroyal'},
+   {'MP9_Cob Web'},
+   {'MP9_SnowTime'},
+   {'MP9_Velvita'},
+   {'MP9_Decked Halls'},
+   {'MP9_Wilderness'},
+   {'MP9_Vaporwave'},
+   {'MAC10_Stock'},
+   {'MAC10_Wetland'},
+   {'MAC10_Turbo'},
+   {'MAC10_Skeleboney'},
+   {'MAC10_Artists Intent'},
+   {'MAC10_Blaze'},
+   {'MAC10_Golden Rings'},
+   {'MP7-SD_Stock'},
+   {'MP7_Stock'},
+   {'MP7_Silent Ops'},
+   {'MP7_Reindeer'},
+   {'MP7_Trauma'},
+   {'MP7_Sunshot'},
+   {'MP7_Holiday'},
+   {'UMP_Stock'},
+   {'UMP_Gum Drop'},
+   {'UMP_Militia Camo'},
+   {'UMP_Death Grip'},
+   {'UMP_Magma'},
+   {'UMP_Redline'},
+   {'UMP_Molten'},
+   {'P90_Stock'},
+   {'P90_Redcopy'},
+   {'P90_Skulls'},
+   {'P90_Argus'},
+   {'P90_Elegant'},
+   {'P90_Northern Lights'},
+   {'P90_Pine'},
+   {'P90_P-Chan'},
+   {'P90_Krampus'},
+   {'P90_Demon Within'},
+   {'Bizon_Stock'},
+   {'Bizon_Shattered'},
+   {'Bizon_Festive'},
+   {'Bizon_Saint Nick'},
+   {'Bizon_Sergeant'},
+   {'Bizon_Autumic'},
+   {'Bizon_Oblivion'},
+   {'Nova_Stock'},
+   {'Nova_Paradise'},
+   {'Nova_Starry Night'},
+   {'Nova_Black Ice'},
+   {'Nova_Sharkesh'},
+   {'Nova_Tricked'},
+   {'Nova_Terraformer'},
+   {'Nova_Tiger'},
+   {'Nova_Cookie'},
+   {'XM_Stock'},
+   {'XM_Red'},
+   {'XM_Spectrum'},
+   {'XM_Campfire'},
+   {'XM_Atomic'},
+   {'XM_Predator'},
+   {'XM_Artic'},
+   {'XM_Endless Night'},
+   {'XM_MK11'},
+   {'MAG7_Stock'},
+   {'MAG7_Outbreak'},
+   {'MAG7_Striped'},
+   {'MAG7_C4UTION'},
+   {'MAG7_Frosty'},
+   {'MAG7_Bombshell'},
+   {'MAG7_Molten'},
+   {'SawedOff_Stock'},
+   {'SawedOff_Opal'},
+   {'SawedOff_Colorboom'},
+   {'SawedOff_Sullys Blacklight'},
+   {'SawedOff_Casino'},
+   {'SawedOff_Spooky'},
+   {'SawedOff_Executioner'},
+   {'M249_Stock'},
+   {'M249_Lantern'},
+   {'M249_P2020'},
+   {'M249_Wolf'},
+   {'M249_Spooky'},
+   {'M249_Aggressor'},
+   {'Negev_Stock'},
+   {'Negev_Default'},
+   {'Negev_Wetland'},
+   {'Negev_Midnightbones'},
+   {'Negev_Quazar'},
+   {'Negev_Striped'},
+   {'Negev_Winterfell'},
+   {'Famas_Stock'},
+   {'Famas_Haunted Forest'},
+   {'Famas_Goliath'},
+   {'Famas_KugaX'},
+   {'Famas_Medic'},
+   {'Famas_Toxic Rain'},
+   {'Famas_Abstract'},
+   {'Famas_Imprisioned'},
+   {'Famas_Redux'},
+   {'Famas_Shocker'},
+   {'Famas_Cogged'},
+   {'Famas_Centipede'},
+   {'Famas_MK11'},
+   {'Galil_Stock'},
+   {'Galil_Hardware'},
+   {'Galil_Hardware 2'},
+   {'Galil_Toxicity'},
+   {'Galil_Worn'},
+   {'Galil_Frosted'},
+   {'M4A4_Stock'},
+   {'M4A4_Mistletoe'},
+   {'M4A4_Desert Camo'},
+   {'M4A4_RayTrack'},
+   {'M4A4_Toy Soldier'},
+   {'M4A4_Ice Cap'},
+   {'M4A4_Stardust'},
+   {'M4A4_Pinkvision'},
+   {'M4A4_Pinkie'},
+   {'M4A4_Devil'},
+   {'M4A4_Flashy Ride'},
+   {'M4A4_Pondside'},
+   {'M4A4_Candyskull'},
+   {'M4A4_Precision'},
+   {'M4A4_Racer'},
+   {'M4A4_King'},
+   {'M4A4_BOT[S]'},
+   {'M4A4_Endline'},
+   {'M4A4_Quicktime'},
+   {'M4A4_Delinquent'},
+   {'M4A4_Jester'},
+   {'M4A4_Scapter'},
+   {'M4A1_Stock'},
+   {'M4A1_Desert Camo'},
+   {'M4A1_Tecnician'},
+   {'M4A1_Animatic'},
+   {'M4A1_Necropolis'},
+   {'M4A1_Burning'},
+   {'M4A1_Impulse'},
+   {'M4A1_Toucan'},
+   {'M4A1_Wastelander'},
+   {'M4A1_Lunar'},
+   {'M4A1_Jester'},
+   {'M4A1_Heavens Gate'},
+   {'AK47_Stock'},
+   {'AK47_Code Orange'},
+   {'AK47_Maker'},
+   {'AK47_Gifted'},
+   {'AK47_Ugly Sweater'},
+   {'AK47_Scythe'},
+   {'AK47_Clown'},
+   {'AK47_Ghost'},
+   {'AK47_Ace'},
+   {'AK47_Patch'},
+   {'AK47_Eve'},
+   {'AK47_Inversion'},
+   {'AK47_Halo'},
+   {'AK47_Shooting Star'},
+   {'AK47_Quantum'},
+   {'AK47_Plated'},
+   {'AK47_Mean Green'},
+   {'AK47_Bloodboom'},
+   {'AK47_Outrunner'},
+   {'AK47_Precision'},
+   {'AK47_Secret Santa'},
+   {'AK47_Survivor'},
+   {'AK47_Yltude'},
+   {'AK47_Quicktime'},
+   {'AK47_Godess'},
+   {'AK47_Glo'},
+   {'AK47_Hypersonic'},
+   {'AK47_Outlaws'},
+   {'AK47_Hallows'},
+   {'AK47_Variant Camo'},
+   {'AK47_Jester'},
+   {'AK47_Toxic Nitro'},
+   {'AK47_Skin Committee'},
+   {'AK47_VAV'},
+   {'AK47_Scapter'},
+   {'Scout_Stock'},
+   {'Scout_Railgun'},
+   {'Scout_Coffin Biter'},
+   {'Scout_Hot Cocoa'},
+   {'Scout_Flowing Mists'},
+   {'Scout_Theory'},
+   {'Scout_Posh'},
+   {'Scout_Pulse'},
+   {'Scout_Monstruo'},
+   {'Scout_Neon Regulation'},
+   {'Scout_Hellborn'},
+   {'Scout_Xmas'},
+   {'AUG_Stock'},
+   {'AUG_Maker'},
+   {'AUG_Dream Hound'},
+   {'AUG_Graffiti'},
+   {'AUG_Homestead'},
+   {'AUG_Enlisted'},
+   {'AUG_Phoenix'},
+   {'AUG_Chilly Night'},
+   {'AUG_Mystique'},
+   {'AUG_Sunsthetic'},
+   {'AUG_NightHawk'},
+   {'SG_Stock'},
+   {'SG_Magma'},
+   {'SG_Variant Camo'},
+   {'SG_Knighthood'},
+   {'SG_Kitty Cat'},
+   {'SG_Dummy'},
+   {'SG_Yltude'},
+   {'SG_Drop-Out'},
+   {'SG_DropX'},
+   {'AWP_Stock'},
+   {'AWP_Abaddon'},
+   {'AWP_Coffin Biter'},
+   {'AWP_Desert Camo'},
+   {'AWP_Autumness'},
+   {'AWP_Northern Lights'},
+   {'AWP_Forever'},
+   {'AWP_Pear Tree'},
+   {'AWP_Lunar'},
+   {'AWP_Venomus'},
+   {'AWP_Darkness'},
+   {'AWP_Pink Vision'},
+   {'AWP_Bloodborne'},
+   {'AWP_Instinct'},
+   {'AWP_Dark Galaxy'},
+   {'AWP_Regina'},
+   {'AWP_Retroactive'},
+   {'AWP_Dragon'},
+   {'AWP_Grepkin'},
+   {'AWP_Illusion'},
+   {'AWP_Hika'},
+   {'AWP_Difference'},
+   {'AWP_Racer'},
+   {'AWP_Pinkie'},
+   {'AWP_Silence'},
+   {'AWP_Kumanjayi'},
+   {'AWP_Blastech'},
+   {'AWP_JTF2'},
+   {'AWP_Weeb'},
+   {'AWP_Quicktime'},
+   {'AWP_Toxic Nitro'},
+   {'AWP_Nerf'},
+   {'AWP_Scapter'},
+   {'AWP_Blue'},
+   {'G3SG1_Stock'},
+   {'G3SG1_Autumn'},
+   {'G3SG1_Foliage'},
+   {'G3SG1_Amethyst'},
+   {'G3SG1_Hex'},
+   {'G3SG1_Holly Bound'},
+   {'G3SG1_Mahogany'},
+   {'CTGlove_Stock'},
+   {'TGlove_Stock'},
+   {'Fingerless Glove_Digital'},
+   {'Fingerless Glove_Patch'},
+   {'Fingerless Glove_Crystal'},
+   {'Fingerless Glove_Scapter'},
+   {'Fingerless Glove_Kiruma'},
+   {'Strapped Glove_Wisk'},
+   {'Strapped Glove_Molten'},
+   {'Strapped Glove_Grim'},
+   {'Strapped Glove_Kringle'},
+   {'Strapped Glove_Drop-Out'},
+   {'Strapped Glove_Racer'},
+   {'Sports Glove_Hallows'},
+   {'Sports Glove_Weeb'},
+   {'Sports Glove_Pumpkin'},
+   {'Sports Glove_Skulls'},
+   {'Sports Glove_RSL'},
+   {'Sports Glove_CottonTail'},
+   {'Sports Glove_Royal'},
+   {'Sports Glove_Majesty'},
+   {'Sports Glove_Hazard'},
+   {'Sports Glove_Calamity'},
+   {'Handwraps_Guts'},
+   {'Handwraps_Wetland'},
+   {'Handwraps_Mummy'},
+   {'Handwraps_MMA'},
+   {'Handwraps_Toxic Nitro'},
+   {'Handwraps_Ghoul Hex'},
+   {'Handwraps_Phantom Hex'},
+   {'Handwraps_Spector Hex'},
+   {'Handwraps_Orange Hex'},
+   {'Handwraps_Purple Hex'},
+   {'Handwraps_Green Hex'},
+   {'Handwraps_Wraps'},
+   {'Handwraps_ARMS REMOVER'},
+   {'Karambit_Consumed'},
+   {'Karambit_Goo'},
+   {'Karambit_Ciro'},
+   {'Karambit_Hallows'},
+   {'Karambit_Jester'},
+   {'Karambit_Quicktime'},
+   {'Karambit_Pizza'},
+   {'Karambit_Peppermint'},
+   {'Karambit_Racer'},
+   {'Karambit_Ruby'},
+   {'Karambit_Bloodwidow'},
+   {'Karambit_Stock'},
+   {'Karambit_Marbleized'},
+   {'Karambit_Wetland'},
+   {'Karambit_Naval'},
+   {'Karambit_Drop-Out'},
+   {'Karambit_Frozen Dream'},
+   {'Karambit_Crippled Fade'},
+   {'Karambit_Jade Dream'},
+   {'Karambit_Splattered'},
+   {'Karambit_Worn'},
+   {'Karambit_Liberty Camo'},
+   {'Karambit_Neonic'},
+   {'Karambit_Glossed'},
+   {'Karambit_Cosmos'},
+   {'Karambit_Twitch'},
+   {'Karambit_Crimson Tiger'},
+   {'Karambit_Lantern'},
+   {'Karambit_Topaz'},
+   {'Karambit_Tropical'},
+   {'Karambit_Festive'},
+   {'Karambit_Egg Shell'},
+   {'Karambit_Gold'},
+   {'Karambit_Death Wish'},
+   {'Karambit_Digital'},
+   {'Karambit_Scapter'},
+   {'Butterfly Knife_Wetland'},
+   {'Butterfly Knife_Marbleized'},
+   {'Butterfly Knife_Goo'},
+   {'Butterfly Knife_Argus'},
+   {'Butterfly Knife_Jade Dream'},
+   {'Butterfly Knife_Crippled Fade'},
+   {'Butterfly Knife_Hallows'},
+   {'Butterfly Knife_Consumed'},
+   {'Butterfly Knife_Ruby'},
+   {'Butterfly Knife_Bloodwidow'},
+   {'Butterfly Knife_White Boss'},
+   {'Butterfly Knife_Stock'},
+   {'Butterfly Knife_Snowfall'},
+   {'Butterfly Knife_Frozen Dream'},
+   {'Butterfly Knife_Naval'},
+   {'Butterfly Knife_Wrapped'},
+   {'Butterfly Knife_Neonic'},
+   {'Butterfly Knife_Icicle'},
+   {'Butterfly Knife_Cosmos'},
+   {'Butterfly Knife_Twitch'},
+   {'Butterfly Knife_Freedom'},
+   {'Butterfly Knife_Worn'},
+   {'Butterfly Knife_Crimson Tiger'},
+   {'Butterfly Knife_Aurora'},
+   {'Butterfly Knife_Egg Shell'},
+   {'Butterfly Knife_Scapter'},
+   {'Butterfly Knife_Reaper'},
+   {'Butterfly Knife_Tropical'},
+   {'Butterfly Knife_Topaz'},
+   {'Butterfly Knife_Inversion'},
+   {'Butterfly Knife_Splattered'},
+   {'Butterfly Knife_Digital'},
+   {'Falchion Knife_Stock'},
+   {'Falchion Knife_Goo'},
+   {'Falchion Knife_Wetland'},
+   {'Falchion Knife_Marbleized'},
+   {'Falchion Knife_Naval'},
+   {'Falchion Knife_Frozen Dream'},
+   {'Falchion Knife_Chosen'},
+   {'Falchion Knife_Inversion'},
+   {'Falchion Knife_Bloodwidow'},
+   {'Falchion Knife_Hallows'},
+   {'Falchion Knife_Pumpkin'},
+   {'Falchion Knife_Cocoa'},
+   {'Falchion Knife_Crippled Fade'},
+   {'Falchion Knife_Ruby'},
+   {'Falchion Knife_Consumed'},
+   {'Falchion Knife_Racer'},
+   {'Falchion Knife_Toxic Nitro'},
+   {'Falchion Knife_Cosmos'},
+   {'Falchion Knife_Late Night'},
+   {'Falchion Knife_Coal'},
+   {'Falchion Knife_Neonic'},
+   {'Falchion Knife_Wrapped'},
+   {'Falchion Knife_Freedom'},
+   {'Falchion Knife_Worn'},
+   {'Falchion Knife_Crimson Tiger'},
+   {'Falchion Knife_Festive'},
+   {'Falchion Knife_Egg Shell'},
+   {'Falchion Knife_Topaz'},
+   {'Falchion Knife_Tropical'},
+   {'Falchion Knife_Zombie'},
+   {'Falchion Knife_Splattered'},
+   {'Falchion Knife_Digital'},
+   {'Bayonet_Aequalis'},
+   {'Bayonet_Goo'},
+   {'Bayonet_UFO'},
+   {'Bayonet_Delinquent'},
+   {'Bayonet_Hallows'},
+   {'Bayonet_Racer'},
+   {'Bayonet_Mariposa'},
+   {'Bayonet_Ghastly'},
+   {'Bayonet_Intertwine'},
+   {'Bayonet_Decor'},
+   {'Bayonet_Geo Blade'},
+   {'Bayonet_Frozen Dream'},
+   {'Bayonet_Consumed'},
+   {'Bayonet_Marbleized'},
+   {'Bayonet_Wetland'},
+   {'Bayonet_Naval'},
+   {'Bayonet_Stock'},
+   {'Bayonet_Banner'},
+   {'Bayonet_Neonic'},
+   {'Bayonet_Cosmos'},
+   {'Bayonet_Sapphire'},
+   {'Bayonet_Twitch'},
+   {'Bayonet_Egg Shell'},
+   {'Bayonet_Silent Night'},
+   {'Bayonet_Tropical'},
+   {'Bayonet_Splattered'},
+   {'Bayonet_Crow'},
+   {'Bayonet_Topaz'},
+   {'Bayonet_Wrapped'},
+   {'Bayonet_Festive'},
+   {'Bayonet_RSL'},
+   {'Bayonet_Crimson Tiger'},
+   {'Bayonet_Worn'},
+   {'Bayonet_Digital'},
+   {'Bayonet_Easy-Bake'},
+   {'Bayonet_Candy Cane'},
+   {'Huntsman Knife_Stock'},
+   {'Huntsman Knife_Ciro'},
+   {'Huntsman Knife_Goo'},
+   {'Huntsman Knife_Hallows'},
+   {'Huntsman Knife_Marbleized'},
+   {'Huntsman Knife_Wetland'},
+   {'Huntsman Knife_Geo Blade'},
+   {'Huntsman Knife_Naval'},
+   {'Huntsman Knife_Frozen Dream'},
+   {'Huntsman Knife_Drop-Out'},
+   {'Huntsman Knife_Spirit'},
+   {'Huntsman Knife_Consumed'},
+   {'Huntsman Knife_Bloodwidow'},
+   {'Huntsman Knife_Ruby'},
+   {'Huntsman Knife_Crippled Fade'},
+   {'Huntsman Knife_Cozy'},
+   {'Huntsman Knife_Cosmos'},
+   {'Huntsman Knife_Crimson Tiger'},
+   {'Huntsman Knife_Worn'},
+   {'Huntsman Knife_Splattered'},
+   {'Huntsman Knife_Twitch'},
+   {'Huntsman Knife_Egg Shell'},
+   {'Huntsman Knife_Monster'},
+   {'Huntsman Knife_Tropical'},
+   {'Huntsman Knife_Honor Fade'},
+   {'Huntsman Knife_Aurora'},
+   {'Huntsman Knife_Wrapped'},
+   {'Huntsman Knife_Digital'},
+   {'Huntsman Knife_Glossed'},
+   {'Gut Knife_Stock'},
+   {'Gut Knife_Splattered'},
+   {'Gut Knife_Rusty'},
+   {'Gut Knife_Frozen Dream'},
+   {'Gut Knife_Naval'},
+   {'Gut Knife_Geo Blade'},
+   {'Gut Knife_Marbleized'},
+   {'Gut Knife_Wetland'},
+   {'Gut Knife_Goo'},
+   {'Gut Knife_Hallows'},
+   {'Gut Knife_Consumed'},
+   {'Gut Knife_Bloodwidow'},
+   {'Gut Knife_Ruby'},
+   {'Gut Knife_Holly'},
+   {'Gut Knife_Crippled Fade'},
+   {'Gut Knife_Egg Shell'},
+   {'Gut Knife_Lurker'},
+   {'Gut Knife_Tropical'},
+   {'Gut Knife_Topaz'},
+   {'Gut Knife_Neonic'},
+   {'Gut Knife_Present'},
+   {'Gut Knife_Banner'},
+   {'Gut Knife_Cosmos'},
+   {'Gut Knife_Worn'},
+   {'Gut Knife_Crimson Tiger'},
+   {'Gut Knife_Wrapped'},
+   {'Gut Knife_Digital'},
+   {'CTKnife_Stock'},
+   {'TKnife_Stock'},
+   {'Bearded Axe_Stock'},
+   {'Bearded Axe_Splattered'},
+   {'Bearded Axe_Beast'},
+   {'Sickle_Stock'},
+   {'Sickle_Splattered'},
+   {'Sickle_Mummy'},
+   {'Cleaver_Stock'},
+   {'Cleaver_Splattered'},
+   {'Cleaver_Spider'},
+}
+
+local isUnlocked
+
+local mt = getrawmetatable(game)
+local oldNamecall = mt.__namecall
+setreadonly(mt, false)
+
+local isUnlocked
+
+mt.__namecall = newcclosure(function(self, ...)
+   local args = {...}
+   if getnamecallmethod() == "InvokeServer" and tostring(self) == "Hugh" then
+    return
+   end
+   if getnamecallmethod() == "FireServer" then
+    if args[1] == LocalPlayer.UserId then
+        return
+    end
+    if string.len(tostring(self)) == 38 then
+        if not isUnlocked then
+         isUnlocked = true
+         for i,v in pairs(allSkins) do
+          local doSkip
+          for i2,v2 in pairs(args[1]) do
+              if v[1] == v2[1] then
+               doSkip = true
+              end
+          end
+          if not doSkip then
+              table.insert(args[1], v)
+          end
+         end
+        end
+        return
+    end
+    if tostring(self) == "DataEvent" and args[1][4] then
+        local currentSkin = string.split(args[1][4][1], "_")[2]
+        if args[1][2] == "Both" then
+         LocalPlayer["SkinFolder"]["CTFolder"][args[1][3]].Value = currentSkin
+         LocalPlayer["SkinFolder"]["TFolder"][args[1][3]].Value = currentSkin
+        else
+         LocalPlayer["SkinFolder"][args[1][2] .. "Folder"][args[1][3]].Value = currentSkin
+        end
+    end
+   end
+   return oldNamecall(self, ...)
+end)
+   
+setreadonly(mt, true)
+
+Client.CurrentInventory = allSkins
+
+local TClone, CTClone = LocalPlayer.SkinFolder.TFolder:Clone(), game.Players.LocalPlayer.SkinFolder.CTFolder:Clone()
+LocalPlayer.SkinFolder.TFolder:Destroy()
+LocalPlayer.SkinFolder.CTFolder:Destroy()
+TClone.Parent = LocalPlayer.SkinFolder
+CTClone.Parent = LocalPlayer.SkinFolder
+game.ReplicatedStorage.Skins.Karambit.Ciro.Animated:Destroy()
+end)
+
+customs_tab:Toggle("Remove Gloves", false, function(val)
+	if val == true then
+		game.ReplicatedStorage.Viewmodels.ECArms["Left Arm"].Glove.Transparency = 1
+		game.ReplicatedStorage.Viewmodels.ECArms["Right Arm"].Glove.Transparency = 1
+		game.ReplicatedStorage.Viewmodels.GIGNArms["Left Arm"].Glove.Transparency = 1
+		game.ReplicatedStorage.Viewmodels.GIGNArms["Right Arm"].Glove.Transparency = 1
+		game.ReplicatedStorage.Viewmodels.SASArms["Left Arm"].Glove.Transparency = 1
+		game.ReplicatedStorage.Viewmodels.SASArms["Right Arm"].Glove.Transparency = 1
+		game.ReplicatedStorage.Viewmodels.IDFArms["Left Arm"].Glove.Transparency = 1
+		game.ReplicatedStorage.Viewmodels.IDFArms["Right Arm"].Glove.Transparency = 1
+		game.ReplicatedStorage.Viewmodels.UTArms["Left Arm"].Glove.Transparency = 1
+		game.ReplicatedStorage.Viewmodels.UTArms["Right Arm"].Glove.Transparency = 1
+		game.ReplicatedStorage.Viewmodels.GCTArms["Left Arm"].Glove.Transparency = 1
+		game.ReplicatedStorage.Viewmodels.GCTArms["Right Arm"].Glove.Transparency = 1
+		game.ReplicatedStorage.Viewmodels.PCArms["Left Arm"].Glove.Transparency = 1
+		game.ReplicatedStorage.Viewmodels.PCArms["Right Arm"].Glove.Transparency = 1
+		game.ReplicatedStorage.Viewmodels.BDSArms["Left Arm"].Glove.Transparency = 1
+		game.ReplicatedStorage.Viewmodels.BDSArms["Right Arm"].Glove.Transparency = 1
+		game.ReplicatedStorage.Viewmodels.GSGArms["Left Arm"].Glove.Transparency = 1
+		game.ReplicatedStorage.Viewmodels.GSGArms["Right Arm"].Glove.Transparency = 1
+		game.ReplicatedStorage.Viewmodels.SPArms["Left Arm"].Glove.Transparency = 1
+		game.ReplicatedStorage.Viewmodels.SPArms["Right Arm"].Glove.Transparency = 1
+		game.ReplicatedStorage.Viewmodels.WDArms["Left Arm"].Glove.Transparency = 1
+		game.ReplicatedStorage.Viewmodels.WDArms["Right Arm"].Glove.Transparency = 1
+		game.ReplicatedStorage.Viewmodels.GTArms["Left Arm"].Glove.Transparency = 1
+		game.ReplicatedStorage.Viewmodels.GTArms["Right Arm"].Glove.Transparency = 1
+		game.ReplicatedStorage.Viewmodels.PTArms["Left Arm"].Glove.Transparency = 1
+		game.ReplicatedStorage.Viewmodels.PTArms["Right Arm"].Glove.Transparency = 1
+		game.ReplicatedStorage.Viewmodels.AAArms["Left Arm"].Glove.Transparency = 1
+		game.ReplicatedStorage.Viewmodels.AAArms["Right Arm"].Glove.Transparency = 1
+		game.ReplicatedStorage.Gloves.Models["Sports Glove"].LGlove.Transparency = 1
+		game.ReplicatedStorage.Gloves.Models["Sports Glove"].RGlove.Transparency = 1
+		game.ReplicatedStorage.Gloves.Models["Handwraps"].LGlove.Transparency = 1
+		game.ReplicatedStorage.Gloves.Models["Handwraps"].RGlove.Transparency = 1
+		game.ReplicatedStorage.Gloves.Models["Fingerless Glove"].LGlove.Transparency = 1
+		game.ReplicatedStorage.Gloves.Models["Fingerless Glove"].RGlove.Transparency = 1
+		game.ReplicatedStorage.Gloves.Models["Strapped Glove"].LGlove.Transparency = 1
+		game.ReplicatedStorage.Gloves.Models["Strapped Glove"].RGlove.Transparency = 1
+	else
+		game.ReplicatedStorage.Viewmodels.ECArms["Left Arm"].Glove.Transparency = 0
+		game.ReplicatedStorage.Viewmodels.ECArms["Right Arm"].Glove.Transparency = 0
+		game.ReplicatedStorage.Viewmodels.GIGNArms["Left Arm"].Glove.Transparency = 0
+		game.ReplicatedStorage.Viewmodels.GIGNArms["Right Arm"].Glove.Transparency = 0
+		game.ReplicatedStorage.Viewmodels.SASArms["Left Arm"].Glove.Transparency = 0
+		game.ReplicatedStorage.Viewmodels.SASArms["Right Arm"].Glove.Transparency = 0
+		game.ReplicatedStorage.Viewmodels.IDFArms["Left Arm"].Glove.Transparency = 0
+		game.ReplicatedStorage.Viewmodels.IDFArms["Right Arm"].Glove.Transparency = 0
+		game.ReplicatedStorage.Viewmodels.UTArms["Left Arm"].Glove.Transparency = 0
+		game.ReplicatedStorage.Viewmodels.UTArms["Right Arm"].Glove.Transparency = 0
+		game.ReplicatedStorage.Viewmodels.GCTArms["Left Arm"].Glove.Transparency = 0
+		game.ReplicatedStorage.Viewmodels.GCTArms["Right Arm"].Glove.Transparency = 0
+		game.ReplicatedStorage.Viewmodels.PCArms["Left Arm"].Glove.Transparency = 0
+		game.ReplicatedStorage.Viewmodels.PCArms["Right Arm"].Glove.Transparency = 0
+		game.ReplicatedStorage.Viewmodels.BDSArms["Left Arm"].Glove.Transparency = 0
+		game.ReplicatedStorage.Viewmodels.BDSArms["Right Arm"].Glove.Transparency = 0
+		game.ReplicatedStorage.Viewmodels.GSGArms["Left Arm"].Glove.Transparency = 0
+		game.ReplicatedStorage.Viewmodels.GSGArms["Right Arm"].Glove.Transparency = 0
+		game.ReplicatedStorage.Viewmodels.SPArms["Left Arm"].Glove.Transparency = 0
+		game.ReplicatedStorage.Viewmodels.SPArms["Right Arm"].Glove.Transparency = 0
+		game.ReplicatedStorage.Viewmodels.WDArms["Left Arm"].Glove.Transparency = 0
+		game.ReplicatedStorage.Viewmodels.WDArms["Right Arm"].Glove.Transparency = 0
+		game.ReplicatedStorage.Viewmodels.GTArms["Left Arm"].Glove.Transparency = 0
+		game.ReplicatedStorage.Viewmodels.GTArms["Right Arm"].Glove.Transparency = 0
+		game.ReplicatedStorage.Viewmodels.PTArms["Left Arm"].Glove.Transparency = 0
+		game.ReplicatedStorage.Viewmodels.PTArms["Right Arm"].Glove.Transparency = 0
+		game.ReplicatedStorage.Viewmodels.AAArms["Left Arm"].Glove.Transparency = 0
+		game.ReplicatedStorage.Viewmodels.AAArms["Right Arm"].Glove.Transparency = 0
+		game.ReplicatedStorage.Gloves.Models["Sports Glove"].LGlove.Transparency = 0
+		game.ReplicatedStorage.Gloves.Models["Sports Glove"].RGlove.Transparency = 0
+		game.ReplicatedStorage.Gloves.Models["Handwraps"].LGlove.Transparency = 0
+		game.ReplicatedStorage.Gloves.Models["Handwraps"].RGlove.Transparency = 0
+		game.ReplicatedStorage.Gloves.Models["Fingerless Glove"].LGlove.Transparency = 0
+		game.ReplicatedStorage.Gloves.Models["Fingerless Glove"].RGlove.Transparency = 0
+		game.ReplicatedStorage.Gloves.Models["Strapped Glove"].LGlove.Transparency = 0
+		game.ReplicatedStorage.Gloves.Models["Strapped Glove"].RGlove.Transparency = 0
+	end
+end)
+
+
+
+
+
+
+
+
+
+customs_tab:Toggle("Remove Arm-Cloths", false, function(val)
+	if val == true then
+		game.ReplicatedStorage.Viewmodels.GIGNArms["Left Arm"].Sleeve.Transparency = 1
+		game.ReplicatedStorage.Viewmodels.GIGNArms["Right Arm"].Sleeve.Transparency = 1
+		game.ReplicatedStorage.Viewmodels.SASArms["Left Arm"].Sleeve.Transparency = 1
+		game.ReplicatedStorage.Viewmodels.SASArms["Right Arm"].Sleeve.Transparency = 1
+		game.ReplicatedStorage.Viewmodels.IDFArms["Left Arm"].Sleeve.Transparency = 1
+		game.ReplicatedStorage.Viewmodels.IDFArms["Right Arm"].Sleeve.Transparency = 1
+		game.ReplicatedStorage.Viewmodels.UTArms["Left Arm"].Sleeve.Transparency = 1
+		game.ReplicatedStorage.Viewmodels.UTArms["Right Arm"].Sleeve.Transparency = 1
+		game.ReplicatedStorage.Viewmodels.BDSArms["Left Arm"].Sleeve.Transparency = 1
+		game.ReplicatedStorage.Viewmodels.BDSArms["Right Arm"].Sleeve.Transparency = 1
+		game.ReplicatedStorage.Viewmodels.GSGArms["Left Arm"].Sleeve.Transparency = 1
+		game.ReplicatedStorage.Viewmodels.GSGArms["Right Arm"].Sleeve.Transparency = 1
+		game.ReplicatedStorage.Viewmodels.SPArms["Left Arm"].Sleeve.Transparency = 1
+		game.ReplicatedStorage.Viewmodels.SPArms["Right Arm"].Sleeve.Transparency = 1
+		game.ReplicatedStorage.Viewmodels.WDArms["Left Arm"].Sleeve.Transparency = 1
+		game.ReplicatedStorage.Viewmodels.WDArms["Right Arm"].Sleeve.Transparency = 1
+		game.ReplicatedStorage.Viewmodels.AAArms["Left Arm"].Sleeve.Transparency = 1
+		game.ReplicatedStorage.Viewmodels.AAArms["Right Arm"].Sleeve.Transparency = 1
+	else
+		game.ReplicatedStorage.Viewmodels.GIGNArms["Left Arm"].Sleeve.Transparency = 0
+		game.ReplicatedStorage.Viewmodels.GIGNArms["Right Arm"].Sleeve.Transparency = 0
+		game.ReplicatedStorage.Viewmodels.SASArms["Left Arm"].Sleeve.Transparency = 0
+		game.ReplicatedStorage.Viewmodels.SASArms["Right Arm"].Sleeve.Transparency = 0
+		game.ReplicatedStorage.Viewmodels.IDFArms["Left Arm"].Sleeve.Transparency = 0
+		game.ReplicatedStorage.Viewmodels.IDFArms["Right Arm"].Sleeve.Transparency = 0
+		game.ReplicatedStorage.Viewmodels.UTArms["Left Arm"].Sleeve.Transparency = 0
+		game.ReplicatedStorage.Viewmodels.UTArms["Right Arm"].Sleeve.Transparency = 0
+		game.ReplicatedStorage.Viewmodels.BDSArms["Left Arm"].Sleeve.Transparency = 0
+		game.ReplicatedStorage.Viewmodels.BDSArms["Right Arm"].Sleeve.Transparency = 0
+		game.ReplicatedStorage.Viewmodels.GSGArms["Left Arm"].Sleeve.Transparency = 0
+		game.ReplicatedStorage.Viewmodels.GSGArms["Right Arm"].Sleeve.Transparency = 0
+		game.ReplicatedStorage.Viewmodels.SPArms["Left Arm"].Sleeve.Transparency = 0
+		game.ReplicatedStorage.Viewmodels.SPArms["Right Arm"].Sleeve.Transparency = 0
+		game.ReplicatedStorage.Viewmodels.WDArms["Left Arm"].Sleeve.Transparency = 0
+		game.ReplicatedStorage.Viewmodels.WDArms["Right Arm"].Sleeve.Transparency = 0
+		game.ReplicatedStorage.Viewmodels.AAArms["Left Arm"].Sleeve.Transparency = 0
+		game.ReplicatedStorage.Viewmodels.AAArms["Right Arm"].Sleeve.Transparency = 0
+	end
+end)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+sounds_tab:Toggle("Old CBRO Sounds", false, function(val)
+	if val == true then
+while true do
+	wait(0.5)
+	pcall(function()
+		local player = game:GetService("Players").LocalPlayer.Character
+		if player.EquippedTool.Value == "AK47" then
+			player.Gun.Shoot.SoundId = "rbxassetid://2476570846"
+		end
+
+		if player.EquippedTool.Value == "M4A1" then
+			player.Gun.SShoot.SoundId = "rbxassetid://4642718673"
+
+		end
+
+        if player.EquippedTool.Value == "Glock" then
+			player.Gun.Shoot.SoundId = "rbxassetid://2752837489"
+
+		end
+
+        if player.EquippedTool.Value == "M4A1" then
+			player.Gun.Shoot.SoundId = "rbxassetid://2515498997"
+
+		end
+
+		if player.EquippedTool.Value == "Galil" then
+			player.Gun.Shoot.SoundId = "rbxassetid://169799921"
+		end
+
+		if player.EquippedTool.Value == "USP" then
+			player.Gun.SShoot.SoundId = "rbxassetid://4108910200"
+		end
+
+        if player.EquippedTool.Value == "USP" then
+			player.Gun.Shoot.SoundId = "rbxassetid://1112953216"
+		end
+
+		if player.EquippedTool.Value == "DualBerettas" then 
+			player.Gun1.Shoot.SoundId = "rbxassetid://132373536"
+			player.Gun2.Shoot.SoundId = "rbxassetid://132373536"
+		end
+
+		if player.EquippedTool.Value == "P250" then
+			player.Gun.Shoot.SoundId = "rbxassetid://1112861631"
+            player.Gun.Shoot.TimePosition = 0.1
+		end
+
+		if player.EquippedTool.Value == "DesertEagle" then
+			player.Gun.Shoot.SoundId = "rbxassetid://255048411"
+		end
+
+		if player.EquippedTool.Value == "M249" then
+			player.Gun.Shoot.SoundId = "rbxassetid://1112739791"
+		end
+
+		if player.EquippedTool.Value == "MP9" then
+			player.Gun.Shoot.SoundId = "rbxassetid://6277398219"
+		end
+
+		if player.EquippedTool.Value == "MP7-SD" then
+			player.Gun.Shoot.SoundId = "rbxassetid://2476571324"
+		end
+
+		if player.EquippedTool.Value == "UMP" then
+			player.Gun.Shoot.SoundId = "rbxassetid://1112854510"
+		end
+
+		if player.EquippedTool.Value == "P90" then
+			player.Gun.Shoot.SoundId = "rbxassetid://1112952100"
+		end
+
+		if player.EquippedTool.Value == "Bizon" then
+			player.Gun.Shoot.SoundId = "rbxassetid://6730312567"
+		end
+
+		if player.EquippedTool.Value == "Famas" then
+			player.Gun.Shoot.SoundId = "rbxassetid://165946283"
+		end
+
+		if player.EquippedTool.Value == "Scout" then
+			player.Gun.Shoot.SoundId = "rbxassetid://2759196051"
+            player.Gun.Zoom.SoundId = "rbxassetid://2862871544"
+            player.Gun.Zoom.PlaybackSpeed = 1
+		end
+
+		if player.EquippedTool.Value == "AUG" then
+			player.Gun.Shoot.SoundId = "rbxassetid://297606774"
+		end
+
+		if player.EquippedTool.Value == "AWP" then
+			player.Gun.Shoot.SoundId = "rbxassetid://2753888131"
+            player.Gun.Zoom.SoundId = "rbxassetid://2862871544"
+            player.Gun.Zoom.PlaybackSpeed = 1
+		end
+
+		if player.EquippedTool.Value == "G3SG1" then
+			player.Gun.Shoot.SoundId = "rbxassetid://1112950864"
+		end
+
+		if player.EquippedTool.Value == "MAC10" then
+			player.Gun.Shoot.SoundId = "rbxassetid://141632948"
+		end
+
+		if player.EquippedTool.Value == "SawedOff" then
+			player.Gun.Shoot.SoundId = "rbxassetid://168413145"
+		end
+
+		if player.EquippedTool.Value == "CZ" then
+			player.Gun.Shoot.SoundId = "rbxassetid://3408513635"
+		end
+
+		if player.EquippedTool.Value == "Nova" then
+			player.Gun.Shoot.SoundId = "rbxassetid://3397807746"
+		end
+
+		if player.EquippedTool.Value == "XM" then
+			player.Gun.Shoot.SoundId = "rbxassetid://3651461663"
+		end
+
+		if player.EquippedTool.Value == "MAG7" then
+			player.Gun.Shoot.SoundId = "rbxassetid://3047843129"
+		end
+
+		if player.EquippedTool.Value == "Negev" then
+			player.Gun.Shoot.SoundId = "rbxassetid://1112852139"
+		end
+
+		if player.EquippedTool.Value == "SG" then
+			player.Gun.Shoot.SoundId = "rbxassetid://1112953720"
+		end
+
+		if player.EquippedTool.Value == "T Knife" then
+			player.Gun.Shoot1.SoundId = "rbxassetid://1665637464"
+			player.Gun.Shoot2.SoundId = "rbxassetid://1665637740"
+		end
+
+		if player.EquippedTool.Value == "CT Knife" then
+			player.Gun.Shoot1.SoundId = "rbxassetid://1665637464"
+			player.Gun.Shoot2.SoundId = "rbxassetid://1665637740"
+		end
+
+        if player.EquippedTool.Value == "M4A4" then
+			player.Gun.Shoot.SoundId = "rbxassetid://6486580099"
+		end
+
+        if player.EquippedTool.Value == "FiveSevenMoment" then
+			player.Gun.Shoot.SoundId = "rbxassetid://1112760448"
+		end
+
+        if player.EquippedTool.Value == "FiveSeven" then
+			player.Gun.Shoot.SoundId = "rbxassetid://1112760448"
+		end
+
+        if player.EquippedTool.Value == "Tec9" then
+			player.Gun.Shoot.SoundId = "rbxassetid://1074291066"
+            player.Gun.Shoot.TimePosition = 0.1
+        end
+	    
+	    if player.EquippedTool.Value == "P2000" then
+	        player.Gun.Shoot.SoundId = "rbxassetid://627902109"
+        end
+	end)
+end
+	else
+while true do
+	wait(0.5)
+	pcall(function()
+		local player = game:GetService("Players").LocalPlayer.Character
+		if player.EquippedTool.Value == "AK47" then
+			player.Gun.Shoot.SoundId = "rbxassetid://2476570846"
+		end
+
+		if player.EquippedTool.Value == "M4A1" then
+			player.Gun.SShoot.SoundId = "rbxassetid://4642718673"
+
+		end
+
+        if player.EquippedTool.Value == "Glock" then
+			player.Gun.Shoot.SoundId = "rbxassetid://2752837489"
+
+		end
+
+        if player.EquippedTool.Value == "M4A1" then
+			player.Gun.Shoot.SoundId = "rbxassetid://2515498997"
+
+		end
+
+		if player.EquippedTool.Value == "Galil" then
+			player.Gun.Shoot.SoundId = "rbxassetid://169799921"
+		end
+
+		if player.EquippedTool.Value == "USP" then
+			player.Gun.SShoot.SoundId = "rbxassetid://4108910200"
+		end
+
+        if player.EquippedTool.Value == "USP" then
+			player.Gun.Shoot.SoundId = "rbxassetid://1112953216"
+		end
+
+		if player.EquippedTool.Value == "DualBerettas" then 
+			player.Gun1.Shoot.SoundId = "rbxassetid://132373536"
+			player.Gun2.Shoot.SoundId = "rbxassetid://132373536"
+		end
+
+		if player.EquippedTool.Value == "P250" then
+			player.Gun.Shoot.SoundId = "rbxassetid://1112861631"
+            player.Gun.Shoot.TimePosition = 0.1
+		end
+
+		if player.EquippedTool.Value == "DesertEagle" then
+			player.Gun.Shoot.SoundId = "rbxassetid://255048411"
+		end
+
+		if player.EquippedTool.Value == "M249" then
+			player.Gun.Shoot.SoundId = "rbxassetid://1112739791"
+		end
+
+		if player.EquippedTool.Value == "MP9" then
+			player.Gun.Shoot.SoundId = "rbxassetid://6277398219"
+		end
+
+		if player.EquippedTool.Value == "MP7-SD" then
+			player.Gun.Shoot.SoundId = "rbxassetid://2476571324"
+		end
+
+		if player.EquippedTool.Value == "UMP" then
+			player.Gun.Shoot.SoundId = "rbxassetid://1112854510"
+		end
+
+		if player.EquippedTool.Value == "P90" then
+			player.Gun.Shoot.SoundId = "rbxassetid://1112952100"
+		end
+
+		if player.EquippedTool.Value == "Bizon" then
+			player.Gun.Shoot.SoundId = "rbxassetid://6730312567"
+		end
+
+		if player.EquippedTool.Value == "Famas" then
+			player.Gun.Shoot.SoundId = "rbxassetid://165946283"
+		end
+
+		if player.EquippedTool.Value == "Scout" then
+			player.Gun.Shoot.SoundId = "rbxassetid://2759196051"
+            player.Gun.Zoom.SoundId = "rbxassetid://2862871544"
+            player.Gun.Zoom.PlaybackSpeed = 1
+		end
+
+		if player.EquippedTool.Value == "AUG" then
+			player.Gun.Shoot.SoundId = "rbxassetid://297606774"
+		end
+
+		if player.EquippedTool.Value == "AWP" then
+			player.Gun.Shoot.SoundId = "rbxassetid://2753888131"
+            player.Gun.Zoom.SoundId = "rbxassetid://2862871544"
+            player.Gun.Zoom.PlaybackSpeed = 1
+		end
+
+		if player.EquippedTool.Value == "G3SG1" then
+			player.Gun.Shoot.SoundId = "rbxassetid://1112950864"
+		end
+
+		if player.EquippedTool.Value == "MAC10" then
+			player.Gun.Shoot.SoundId = "rbxassetid://141632948"
+		end
+
+		if player.EquippedTool.Value == "SawedOff" then
+			player.Gun.Shoot.SoundId = "rbxassetid://168413145"
+		end
+
+		if player.EquippedTool.Value == "CZ" then
+			player.Gun.Shoot.SoundId = "rbxassetid://3408513635"
+		end
+
+		if player.EquippedTool.Value == "Nova" then
+			player.Gun.Shoot.SoundId = "rbxassetid://3397807746"
+		end
+
+		if player.EquippedTool.Value == "XM" then
+			player.Gun.Shoot.SoundId = "rbxassetid://3651461663"
+		end
+
+		if player.EquippedTool.Value == "MAG7" then
+			player.Gun.Shoot.SoundId = "rbxassetid://3047843129"
+		end
+
+		if player.EquippedTool.Value == "Negev" then
+			player.Gun.Shoot.SoundId = "rbxassetid://1112852139"
+		end
+
+		if player.EquippedTool.Value == "SG" then
+			player.Gun.Shoot.SoundId = "rbxassetid://1112953720"
+		end
+
+		if player.EquippedTool.Value == "T Knife" then
+			player.Gun.Shoot1.SoundId = "rbxassetid://1665637464"
+			player.Gun.Shoot2.SoundId = "rbxassetid://1665637740"
+		end
+
+		if player.EquippedTool.Value == "CT Knife" then
+			player.Gun.Shoot1.SoundId = "rbxassetid://1665637464"
+			player.Gun.Shoot2.SoundId = "rbxassetid://1665637740"
+		end
+
+        if player.EquippedTool.Value == "M4A4" then
+			player.Gun.Shoot.SoundId = "rbxassetid://6486580099"
+		end
+
+        if player.EquippedTool.Value == "FiveSevenMoment" then
+			player.Gun.Shoot.SoundId = "rbxassetid://1112760448"
+		end
+
+        if player.EquippedTool.Value == "FiveSeven" then
+			player.Gun.Shoot.SoundId = "rbxassetid://1112760448"
+		end
+
+        if player.EquippedTool.Value == "Tec9" then
+			player.Gun.Shoot.SoundId = "rbxassetid://1074291066"
+            player.Gun.Shoot.TimePosition = 0.1
+        end
+	    
+	    if player.EquippedTool.Value == "P2000" then
+	        player.Gun.Shoot.SoundId = "rbxassetid://627902109"
+        end
+	end)
+end
+	end
+end)
+--=================================================================================================================================
+--   Cheats Tab
+
+cheats_tab:Seperator()
+
+--Field Of View
+cheats_tab:Slider("Field Of View",60,120,80, function(val)
+	game.Workspace.CurrentCamera.FieldOfView = val
+	getsenv(game.Players.LocalPlayer.PlayerGui.Client).fieldofview = val
+end)
+
+
+--[[cheats_tab:Seperator()
+
+
+cheats_tab:Slider("Slient Aim",60,120,80, function(val)
+wait(3)
+local function GetService(Name)
+    return game:GetService(Name)
+end
+
+local Players = GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+local RunService = GetService("RunService")
+local BodyPart = nil
+local Camera = workspace.CurrentCamera
+local Mouse = LocalPlayer:GetMouse()
+
+local function WTS(Object)
+    local ObjectVector = Camera:WorldToScreenPoint(Object.Position)
+    return Vector2.new(ObjectVector.X, ObjectVector.Y)
+end
+
+local function PositionToRay(Origin, Target)
+    return Ray.new(Origin, (Target - Origin).Unit * 600)
+end
+
+local function Filter(Object)
+    if string.find(Object.Name, "Gun") then
+        return
+    end
+    if Object:IsA("Part") or Object:IsA("MeshPart") then
+        return true
+    end
+end
+
+local function MousePositionToVector2()
+    return Vector2.new(Mouse.X, Mouse.Y)
+end
+
+local function IsOnScreen(Object)
+    local IsOnScreen = Camera:WorldToScreenPoint(Object.Position)
+    return IsOnScreen
+end
+
+local function GetClosestBodyPartFromCursor()
+    local ClosestDistance = math.huge
+    for i,  v in next, Players:GetPlayers() do
+        if v ~= LocalPlayer and v.Team ~= LocalPlayer.Team and v.Character and v.Character:FindFirstChild("Humanoid") then
+            for k,  x in next, v.Character:GetChildren() do
+                if Filter(x) and IsOnScreen(x) then
+                    local Distance = (WTS(x) - MousePositionToVector2()).Magnitude
+                    if Distance < ClosestDistance then
+                        ClosestDistance = Distance
+                        BodyPart = x
+                    end
+                end
+            end
+        end
+    end
+end
+
+local OldNameCall; 
+OldNameCall = hookmetamethod(game, "__namecall", function(Self, ...)
+    local Method = getnamecallmethod()
+    local Args = {...}
+    if Method == "FindPartOnRayWithIgnoreList" and BodyPart ~= nil then
+        Args[1] = PositionToRay(Camera.CFrame.Position, BodyPart.Position)
+        return OldNameCall(Self, unpack(Args))
+    end
+    return OldNameCall(Self, ...)
+end)
+
+RunService:BindToRenderStep("Dynamic Silent Aim", val, GetClosestBodyPartFromCursor)
+end) ]]--
+
+
+cheats_tab:Seperator()
+
+--No Flash
+cheats_tab:Toggle("No Flash", false, function(val)
+    if val == true then
+		game.Players.LocalPlayer.PlayerGui.Blnd.Enabled = false
+	else
+		game.Players.LocalPlayer.PlayerGui.Blnd.Enabled = true
+	end
+end)
+
+cheats_tab:Seperator()
+
+--Remove Scope
+cheats_tab:Toggle("Remove Scope", false, function(val)
+    if val == true then
+		game.Players.LocalPlayer.PlayerGui.GUI.Crosshairs.Scope.ImageTransparency = 1
+        game.Players.LocalPlayer.PlayerGui.GUI.Crosshairs.Scope.Scope.ImageTransparency = 1
+        game.Players.LocalPlayer.PlayerGui.GUI.Crosshairs.Scope.Scope.Blur.ImageTransparency = 1
+        game.Players.LocalPlayer.PlayerGui.GUI.Crosshairs.Scope.Scope.Blur.Blur.ImageTransparency = 1
+        game.Players.LocalPlayer.PlayerGui.GUI.Crosshairs.Frame1.Transparency = 1
+        game.Players.LocalPlayer.PlayerGui.GUI.Crosshairs.Frame2.Transparency = 1
+        game.Players.LocalPlayer.PlayerGui.GUI.Crosshairs.Frame3.Transparency = 1
+        game.Players.LocalPlayer.PlayerGui.GUI.Crosshairs.Frame4.Transparency = 1
+	else
+		game.Players.LocalPlayer.PlayerGui.GUI.Crosshairs.Scope.ImageTransparency = 0
+        game.Players.LocalPlayer.PlayerGui.GUI.Crosshairs.Scope.Scope.ImageTransparency = 0
+        game.Players.LocalPlayer.PlayerGui.GUI.Crosshairs.Scope.Scope.Blur.ImageTransparency = 1
+        game.Players.LocalPlayer.PlayerGui.GUI.Crosshairs.Scope.Scope.Blur.Blur.ImageTransparency = 1
+        game.Players.LocalPlayer.PlayerGui.GUI.Crosshairs.Frame1.Transparency = 0
+        game.Players.LocalPlayer.PlayerGui.GUI.Crosshairs.Frame2.Transparency = 0
+        game.Players.LocalPlayer.PlayerGui.GUI.Crosshairs.Frame3.Transparency = 0
+        game.Players.LocalPlayer.PlayerGui.GUI.Crosshairs.Frame4.Transparency = 0
+    end
+end)
+
+
+
+
+
+cheats_tab:Seperator()
+
+--No Crouch Cooldown
+cheats_tab:Toggle("No Crouch Cooldown", false, function(val)
+    if val == true then
+		game:GetService("RunService"):BindToRenderStep("NoCrouchCooldown", 100, function()
+			cbClient.crouchcooldown = 0
+		end)
+	else
+		game:GetService("RunService"):UnbindFromRenderStep("NoCrouchCooldown")
+	end
+end)
+
+cheats_tab:Seperator()
+
+--Auto Join Winning Team
+cheats_tab:Toggle("Auto Join Winning Team", false, function(val)
+	if val == true then
+		if data.TWins.Value > data.CTWins.Value and plr.Team ~= 'Terrorists' then
+			team:FireServer('T')
+		elseif plr.Team ~= 'Counter-Terrorists' then
+			team:FireServer('CT')
+		end
+	end
+end)
+
+cheats_tab:Seperator()
+
+--Drop Pistols
+cheats_tab:Dropdown("Drop Pistols",{"PX4","USP-S","Glock-18","Dual Berettas","Five-Seven","TEC-9","CZ75-Auto","P250","Deagle","Revolver"}, function(gundrops)
+if gundrops == "PX4" then
+        game.ReplicatedStorage.Events.Drop:FireServer(game.ReplicatedStorage.Weapons.P2000, game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame, 999999, 99999, false, game.Players.LocalPlayer, false, false)
+elseif gundrops == "USP-S" then
+    game.ReplicatedStorage.Events.Drop:FireServer(game.ReplicatedStorage.Weapons.USP, game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame, 999999, 99999, false, game.Players.LocalPlayer, false, false)
+elseif gundrops == "Glock-18" then
+    game.ReplicatedStorage.Events.Drop:FireServer(game.ReplicatedStorage.Weapons.Glock, game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame, 999999, 99999, false, game.Players.LocalPlayer, false, false)
+elseif gundrops == "Dual Berettas" then
+    game.ReplicatedStorage.Events.Drop:FireServer(game.ReplicatedStorage.Weapons.DualBerrettas, game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame, 999999, 999999, false, game.Players.LocalPlayer, false, false)
+elseif gundrops == "Five-Seven" then
+    game.ReplicatedStorage.Events.Drop:FireServer(game.ReplicatedStorage.Weapons.FiveSeven, game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame, 999999, 99999, false, game.Players.LocalPlayer, false, false)
+elseif gundrops == "TEC-9" then
+    game.ReplicatedStorage.Events.Drop:FireServer(game.ReplicatedStorage.Weapons.Tec9, game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame, 999999, 99999, false, game.Players.LocalPlayer, false, false)
+elseif gundrops == "CZ75-Auto" then
+    game.ReplicatedStorage.Events.Drop:FireServer(game.ReplicatedStorage.Weapons.CZ, game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame, 999999, 99999, false, game.Players.LocalPlayer, false, false)
+elseif gundrops == "P250" then
+    game.ReplicatedStorage.Events.Drop:FireServer(game.ReplicatedStorage.Weapons.P250, game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame, 999999, 99999, false, game.Players.LocalPlayer, false, false)
+elseif gundrops == "Deagle" then
+    game.ReplicatedStorage.Events.Drop:FireServer(game.ReplicatedStorage.Weapons.DesertEagle, game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame, 999999, 99999, false, game.Players.LocalPlayer, false, false)
+elseif gundrops == "Revolver" then
+    game.ReplicatedStorage.Events.Drop:FireServer(game.ReplicatedStorage.Weapons.R8, game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame, 999999, 99999, false, game.Players.LocalPlayer, false, false)
+end
+end)
+
+--Drop Heavies
+cheats_tab:Dropdown("Drop Heavies",{"Nova","XM1014","MAG-7","Sawed Off","M249","Negev"}, function(gundrops)
+    if gundrops == "Nova" then
+        game.ReplicatedStorage.Events.Drop:FireServer(game.ReplicatedStorage.Weapons.Nova, game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame, 999999, 99999, false, game.Players.LocalPlayer, false, false)
+elseif gundrops == "XM1014" then
+    game.ReplicatedStorage.Events.Drop:FireServer(game.ReplicatedStorage.Weapons.XM1014, game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame, 999999, 99999, false, game.Players.LocalPlayer, false, false)
+elseif gundrops == "MAG-7" then
+    game.ReplicatedStorage.Events.Drop:FireServer(game.ReplicatedStorage.Weapons.Glock, game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame, 999999, 99999, false, game.Players.LocalPlayer, false, false)
+elseif gundrops == "Sawed Off" then
+    game.ReplicatedStorage.Events.Drop:FireServer(game.ReplicatedStorage.Weapons.DualBerrettas, game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame, 999999, 999999, false, game.Players.LocalPlayer, false, false)
+elseif gundrops == "M249" then
+    game.ReplicatedStorage.Events.Drop:FireServer(game.ReplicatedStorage.Weapons.M249, game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame, 999999, 99999, false, game.Players.LocalPlayer, false, false)
+elseif gundrops == "Negev" then
+    game.ReplicatedStorage.Events.Drop:FireServer(game.ReplicatedStorage.Weapons.Negev, game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame, 999999, 99999, false, game.Players.LocalPlayer, false, false)
+end
+end)
+
+-- Drop SMGs
+cheats_tab:Dropdown("Drop SMGs",{"MP9","MAC-10","MP5","UMP-45","P90","MP7-SD","Thompson"}, function(gundrops)
+    if gundrops == "MP9" then
+        game.ReplicatedStorage.Events.Drop:FireServer(game.ReplicatedStorage.Weapons.MP9, game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame, 999999, 99999, false, game.Players.LocalPlayer, false, false)
+elseif gundrops == "MAC-10" then
+    game.ReplicatedStorage.Events.Drop:FireServer(game.ReplicatedStorage.Weapons.MAC10, game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame, 999999, 99999, false, game.Players.LocalPlayer, false, false)
+elseif gundrops == "MP5" then
+    game.ReplicatedStorage.Events.Drop:FireServer(game.ReplicatedStorage.Weapons.MP5, game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame, 999999, 99999, false, game.Players.LocalPlayer, false, false)
+elseif gundrops == "UMP-45" then
+    game.ReplicatedStorage.Events.Drop:FireServer(game.ReplicatedStorage.Weapons.UMP, game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame, 999999, 999999, false, game.Players.LocalPlayer, false, false)
+elseif gundrops == "P90" then
+    game.ReplicatedStorage.Events.Drop:FireServer(game.ReplicatedStorage.Weapons.P90, game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame, 999999, 99999, false, game.Players.LocalPlayer, false, false)
+elseif gundrops == "MP7-SD" then
+    game.ReplicatedStorage.Events.Drop:FireServer(game.ReplicatedStorage.Weapons["MP7-SD"], game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame, 999999, 99999, false, game.Players.LocalPlayer, false, false)
+elseif gundrops == "Thompson" then
+    game.ReplicatedStorage.Events.Drop:FireServer(game.ReplicatedStorage.Weapons.Bizon, game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame, 999999, 99999, false, game.Players.LocalPlayer, false, false)
+end
+end)
+
+-- Drop Rifles
+cheats_tab:Dropdown("Drop Riflers",{"Famas","Galil","M4A4","M4A1-S","AK47","Scout","AUG","SG","AWP","G3S65"}, function(gundrops)
+    if gundrops == "Famas" then
+        game.ReplicatedStorage.Events.Drop:FireServer(game.ReplicatedStorage.Weapons.Famas, game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame, 999999, 99999, false, game.Players.LocalPlayer, false, false)
+elseif gundrops == "Galil" then
+    game.ReplicatedStorage.Events.Drop:FireServer(game.ReplicatedStorage.Weapons.Galil, game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame, 999999, 99999, false, game.Players.LocalPlayer, false, false)
+elseif gundrops == "M4A4" then
+    game.ReplicatedStorage.Events.Drop:FireServer(game.ReplicatedStorage.Weapons.M4A4, game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame, 999999, 99999, false, game.Players.LocalPlayer, false, false)
+elseif gundrops == "M4A1-S" then
+    game.ReplicatedStorage.Events.Drop:FireServer(game.ReplicatedStorage.Weapons.M4A1, game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame, 999999, 999999, false, game.Players.LocalPlayer, false, false)
+elseif gundrops == "AK47" then
+    game.ReplicatedStorage.Events.Drop:FireServer(game.ReplicatedStorage.Weapons.AK47, game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame, 999999, 99999, false, game.Players.LocalPlayer, false, false)
+elseif gundrops == "Scout" then
+    game.ReplicatedStorage.Events.Drop:FireServer(game.ReplicatedStorage.Weapons.Scout, game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame, 999999, 99999, false, game.Players.LocalPlayer, false, false)
+elseif gundrops == "AUG" then
+    game.ReplicatedStorage.Events.Drop:FireServer(game.ReplicatedStorage.Weapons.AUG, game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame, 999999, 99999, false, game.Players.LocalPlayer, false, false)
+elseif gundrops == "AWP" then
+    game.ReplicatedStorage.Events.Drop:FireServer(game.ReplicatedStorage.Weapons.AWP, game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame, 999999, 99999, false, game.Players.LocalPlayer, false, false)
+elseif gundrops == "SG" then
+    game.ReplicatedStorage.Events.Drop:FireServer(game.ReplicatedStorage.Weapons.SG, game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame, 999999, 99999, false, game.Players.LocalPlayer, false, false)
+elseif gundrops == "G3S65" then
+    game.ReplicatedStorage.Events.Drop:FireServer(game.ReplicatedStorage.Weapons.G3SG1, game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame, 999999, 99999, false, game.Players.LocalPlayer, false, false)
+end
+end)
+
+--Drop Grenades
+cheats_tab:Dropdown("Drop Grenades",{"Incendiary Grenade","Molotov","Decoy Grenade","Flashbang","HE Grenade","C4 Bomb"}, function(gundrops)
+    if gundrops == "Incendiary Grenade" then
+        game.ReplicatedStorage.Events.Drop:FireServer(game.ReplicatedStorage.Weapons["Incendiary Grenade"], game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame, 999999, 99999, false, game.Players.LocalPlayer, false, false)
+elseif gundrops == "Molotov" then
+    game.ReplicatedStorage.Events.Drop:FireServer(game.ReplicatedStorage.Weapons.Molotov, game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame, 999999, 99999, false, game.Players.LocalPlayer, false, false)
+elseif gundrops == "Decoy Grenade" then
+    game.ReplicatedStorage.Events.Drop:FireServer(game.ReplicatedStorage.Weapons["Decoy Grenade"], game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame, 999999, 99999, false, game.Players.LocalPlayer, false, false)
+elseif gundrops == "Flashbang" then
+    game.ReplicatedStorage.Events.Drop:FireServer(game.ReplicatedStorage.Weapons.Flashbang, game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame, 999999, 999999, false, game.Players.LocalPlayer, false, false)
+elseif gundrops == "HE Grenade" then
+    game.ReplicatedStorage.Events.Drop:FireServer(game.ReplicatedStorage.Weapons["HE Grenade"], game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame, 999999, 99999, false, game.Players.LocalPlayer, false, false)
+--elseif gundrops == "Discombobulator Grenade" then
+    --game.ReplicatedStorage.Events.Drop:FireServer(game.ReplicatedStorage.Weapons.Discombobulator, game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame, 999999, 99999, false, game.Players.LocalPlayer, false, false)
+elseif gundrops == "C4 Bomb" then
+    game.ReplicatedStorage.Events.Drop:FireServer(game.ReplicatedStorage.Weapons.C4, game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame, 999999, 99999, false, game.Players.LocalPlayer, false, false)
+end
+end)
+
+cheats_tab:Dropdown("Teleports",{"Spawn T","Spawn CT","Plant A","Plant B"}, function(tpbase)
+    if tpbase == "Spawn T" then
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Workspace.Map.SpawnPoints.BuyArea.CFrame
+elseif tpbase == "Spawn CT" then
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Workspace.Map.SpawnPoints.BuyArea2.CFrame
+elseif tpbase == "Plant A" then
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Workspace.Map.SpawnPoints.C4Plant2.CFrame + Vector3.new(0,3,0)
+elseif tpbase == "Plant B" then
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Workspace.Map.SpawnPoints.C4Plant.CFrame + Vector3.new(0,3,0)
+end
+end)
+
+--cheats_tab:Bind("Spawn Discombobulator",Enum.KeyCode.KeypadSeven, function()
+	--game:GetService("ReplicatedStorage").Events.ThrowGrenade:FireServer(game:GetService("ReplicatedStorage").Weapons["Discombobulator"].Model, nil, 25, 35, Vector3.new(0,-100,0), nil, nil)
+--end)
+
+cheats_tab:Bind("Drop C4",Enum.KeyCode.KeypadSeven, function()
+    game.ReplicatedStorage.Events.Drop:FireServer(game.ReplicatedStorage.Weapons.C4, game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame, 999999, 99999, false, game.Players.LocalPlayer, false, false)
+end)
+
+
+
+
+
+
+
+
